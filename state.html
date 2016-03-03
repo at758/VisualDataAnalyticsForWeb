@@ -1,0 +1,134 @@
+<html>
+	<head>
+		<title>State</title>
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+		<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+		<script src="http://d3js.org/topojson.v1.min.js"></script>
+		<style type="text/css">
+
+		</style>
+	</head>
+	<body>
+	<div id="state"></div>
+	<script type="text/javascript">
+	var width = 960,
+    	height = 500;
+
+	var svg = d3.select("#state").append("svg")
+				.attr("height", height).attr("width", width);
+
+	var projection = d3.geo.albersUsa();
+	var path = d3.geo.path().projection(projection);
+	var states;
+	var inpatient;
+	
+	var statePath = svg.append("g");
+	var digitScale = d3.scale.category10()
+	var gapScale = d3.scale.linear().domain([0, 51000]).range(["#f5f5f5", "#3c857f"]);
+
+	d3.json("us.json", function(error, shapes) {
+	states = topojson.feature(shapes, shapes.objects.states).features;
+	statePath.selectAll("path").data(states).enter()
+	.append("path")
+	.attr("d", path)
+	.style("fill", function (states) { return digitScale(Math.floor(states.id)); })
+	.style("stroke", "#ccc");
+	});
+	
+	
+
+	d3.csv("inpatient.csv", function (error, rows) {
+		if (error) {console.log(error);}
+		
+		inpatient = d3.map(rows, function (states) { 
+			return Number(states.id); });
+		//console.log(gapScale(Number(inpatient.get("2").Gap)));
+		//console.log(statePath.selectAll("path"));
+		statePath.selectAll("path")
+				.style("fill", function(states){
+					var stateData = inpatient.get(states.id);
+					if(!stateData) {return "#000"};
+
+					return gapScale(Number(stateData.Gap))});
+		
+	});
+	
+	
+	var stateLocations = [
+		{"state":"AK","latitude":61.3850,"longitude":-152.2683},
+
+		{"state":"AL","latitude":32.7990,"longitude":-86.8073},
+		{"state":"AR","latitude":34.9513,"longitude":-92.3809},
+		{"state":"AZ","latitude":34.7712,"longitude":-115.3877},
+		{"state":"CA","latitude":36.1700,"longitude":-119.7462},
+		{"state":"CO","latitude":39.0646,"longitude":-105.3272},
+		{"state":"CT","latitude":41.5834,"longitude":-72.7622},
+		{"state":"DE","latitude":39.3498,"longitude":-75.5148},
+		{"state":"FL","latitude":27.8333,"longitude":-81.7170},
+		{"state":"GA","latitude":32.9866,"longitude":-83.6487},
+
+		{"state":"HI","latitude":21.1098,"longitude":-157.5311},
+
+		{"state":"IA","latitude":42.0046,"longitude":-93.2140},
+		{"state":"ID","latitude":44.2394,"longitude":-114.5103},
+		{"state":"IL","latitude":40.3363,"longitude":-89.0022},
+		{"state":"IN","latitude":39.8647,"longitude":-86.2604},
+		{"state":"KS","latitude":38.5111,"longitude":-96.8005},
+		{"state":"KY","latitude":37.6690,"longitude":-84.6514},
+		{"state":"LA","latitude":31.1801,"longitude":-91.8749},
+		{"state":"MA","latitude":42.2373,"longitude":-71.5314},
+		{"state":"MD","latitude":39.0724,"longitude":-76.7902},
+		{"state":"ME","latitude":44.6074,"longitude":-69.3977},
+		{"state":"MI","latitude":43.3504,"longitude":-84.5603},
+		{"state":"MN","latitude":45.7326,"longitude":-93.9196},
+		{"state":"MO","latitude":38.4623,"longitude":-92.3020},
+		{"state":"MS","latitude":32.7673,"longitude":-89.6812},
+		{"state":"MT","latitude":46.9048,"longitude":-110.3261},
+		{"state":"NC","latitude":35.6411,"longitude":-79.8431},
+		{"state":"ND","latitude":47.5362,"longitude":-99.7930},
+		{"state":"NE","latitude":41.1289,"longitude":-98.2883},
+		{"state":"NH","latitude":43.4108,"longitude":-71.5653},
+		{"state":"NJ","latitude":40.3140,"longitude":-74.5089},
+		{"state":"NM","latitude":34.8375,"longitude":-106.2371},
+		{"state":"NV","latitude":38.4199,"longitude":-117.1219},
+		{"state":"NY","latitude":42.1497,"longitude":-74.9384},
+		{"state":"OH","latitude":40.3736,"longitude":-82.7755},
+		{"state":"OK","latitude":35.5376,"longitude":-96.9247},
+		{"state":"OR","latitude":46.5672,"longitude":-118.1269},
+		{"state":"PA","latitude":40.5773,"longitude":-77.2640},
+		{"state":"RI","latitude":41.6772,"longitude":-71.5101},
+		{"state":"SC","latitude":33.8191,"longitude":-80.9066},
+		{"state":"SD","latitude":44.2853,"longitude":-99.4632},
+		{"state":"TN","latitude":35.7449,"longitude":-86.7489},
+		{"state":"TX","latitude":31.1060,"longitude":-97.6475},
+		{"state":"UT","latitude":40.1135,"longitude":-111.8535},
+		{"state":"VA","latitude":37.7680,"longitude":-78.2057},
+		{"state":"VT","latitude":44.0407,"longitude":-72.7093},
+		{"state":"WA","latitude":50.3917,"longitude":-115.5708},
+		{"state":"WI","latitude":44.2563,"longitude":-89.6385},
+		{"state":"WV","latitude":38.4680,"longitude":-80.9696},
+		{"state":"WY","latitude":42.7475,"longitude":-107.2085}];
+
+		var topPad = 10;
+		var botPad = 30;
+		var leftPad = 40;
+		var rightPad = 10;
+		var height = svg.attr("height")-topPad-botPad;
+		var width = svg.attr("width")-leftPad-rightPad;
+		var xScale = d3.scale.linear().domain([-125,-65]).range([0, width]);//longitude i.e. x
+		var yScale = d3.scale.linear().domain([28,50]).range([height, 0]);//latitude i.e. y
+		//TODO: add Hawaii and Alaska
+		var statename=svg.append("g").attr("id","statename");
+		stateLocations.forEach(function (state) {
+			statename.append("text")
+			.text(state.state)
+			.attr("font-size",10)
+			.attr("text-anchor","middle")
+			.attr("alignment-baseline","middle")
+			.attr("x",xScale(state.longitude)+leftPad)//x
+			.attr("y",yScale(state.latitude)+topPad);//y
+		});
+		statename.attr("transform","translate(40,55) scale(0.90) rotate(-4)");
+	</script>
+	</body>
+</html>
