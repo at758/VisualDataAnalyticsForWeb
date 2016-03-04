@@ -5,13 +5,13 @@
 	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 	<script src="http://d3js.org/topojson.v1.min.js"></script>
 	<style>
-	body { font-family: 'PT Sans', sans-serif; background-color: rgb(39,40,34); } div { margin: 30px; }
+	body { font-family: 'PT Sans', sans-serif; background-color: grey; } div { margin: 30px; }
 	h1 {font-family: 'PT Sans', sans-serif; color: white;}
 	h3 { font-family: 'PT Sans', sans-serif; color: white; font-size: 16}
 	svg { border: none; fill: black;}
-	.axis path { fill: none; stroke:  #B1FB17; stroke-opacity: 1;}
-	.axis line { stroke:  #B1FB17; stroke-opacity: 1;}
-	.axis text { font-size: 0.5em; fill:  #B1FB17; opacity: 1;}
+	.axis path { fill: none; stroke:  #f8f8ff; stroke-opacity: 1;}
+	.axis line { stroke:  #f8f8ff; stroke-opacity: 1;}
+	.axis text { font-size: 0.5em; fill: #f8f8ff; opacity: 1;}
 	.noTextAxis text { font-size: 0em; }  
 	.logAxis text { font-size: 0.3em; } 
 	text {fill-opacity : 1;}
@@ -25,15 +25,16 @@
 	<h3>CS/INFO 3300 / INFO 5100</h3>
 	<h3>Project 1</h3>
 	<h3>Richard Quan (rq32), Akshay Tata(at758), YuanYuan Li(yl2577)</h3>
-	<h1>Medicare Provider Utilization and Payment Data: Inpatient</h1>
+	<h1>Average Cost per Hospital for Top 100 Diagnoses in the United States</h1>
 
 	<p id="p2output">
 	<script>
 
-		
+		//TODO: old background color : rgb(39,40,34), old axis color: #B1FB17
+		//TODO: remove comments
 
 		var svg2a = d3.select("#p2output").append("svg");
-		svg2a.attr("height",1000).attr("width",1000);
+		svg2a.attr("height",500).attr("width",1000);
 
 
 		svg2a.append("rect")
@@ -42,7 +43,20 @@
 		.style("fill", "none");
 		//rgb(9, 52, 86)
 		
+		/*var str = '';
+		console.log('hello\n\n\n\n');
+		for(var i = 0; i < 96; i++) {
+			var Red = i % 4;
+			var Grn = (i / 4) % 4;
+			var Blu = (i / 16) % 4;
 
+			Red = Math.floor(Red * 255 / 3);
+			Grn = Math.floor(Grn * 255 / 3);
+			Blu = Math.floor(Blu * 255 / 3);
+			
+			str += 'rgb('+Red+','+Grn+','+Blu+')\n';
+		}
+		console.log(str);*/
 
 		var topPad = 10;
 		var botPad = 30;
@@ -50,8 +64,8 @@
 		var rightPad = 10;
 		var height = svg2a.attr("height")-topPad-botPad;
 		var width = svg2a.attr("width")-leftPad-rightPad;
-		var rankScale = d3.scale.linear().domain([10000,60000]).range([0, width]);
-		var countScale = d3.scale.linear().domain([9000,150000]).range([height, 0]);
+		var xScale = d3.scale.linear().domain([10000,60000]).range([0, width]);
+		var yScale = d3.scale.linear().domain([10000,125000]).range([height, 0]);
 
 		var radScale = d3.scale.linear().domain([18250, 58000]).range([20, 35]);
 		var opacityScale = d3.scale.linear().domain([9000, 150000]).range([0.2, 1]);
@@ -59,21 +73,21 @@
 
 
 
-		/*var rankAxis = d3.svg.axis().scale(rankScale).orient("bottom").tickFormat(d3.format("s"));
+		/*var xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickFormat(d3.format("s"));
 		svg2a.append("g").attr("class", "axis")
 		.attr("transform", "translate("+leftPad+","+(height+topPad)+")")
-		.call(rankAxis);*/
+		.call(xAxis);*/
 
-		var countAxis = d3.svg.axis().scale(countScale).orient("left").tickFormat(d3.format("s"));
+		var yAxis = d3.svg.axis().scale(yScale).orient("left").tickFormat(d3.format("s"));
 		svg2a.append("g").attr("class", "axis")
 		.attr("transform", "translate("+leftPad+","+topPad+")")
-		.call(countAxis);
+		.call(yAxis);
 
 		var yearCnt = 0;
 		var yearCntGreen = 0;
 		var ctrVar = 0;
 
-		var xArr = [rankScale(52062.94) - 650, rankScale(59444.46) - 550, rankScale(66698.56) - 450];
+		var xArr = [xScale(52062.94) - 650, xScale(59444.46) - 550, xScale(66698.56) - 450];
 
 		var hashObj = {};
 
@@ -138,7 +152,7 @@
 			.attr("y", 1000 - topPad - botPad - 940);//y
 
 		svg2a.append("text")
-			.text("Infotopia")
+			.text("Key")
 			.attr("font-size",20)
 			.attr("text-anchor","middle")
 			.attr("alignment-baseline","middle")
@@ -280,29 +294,27 @@
 
 				svg2a.append("circle")
 				.attr("cx", xArr[0]+leftPad)
-				.attr("cy", countScale(word.year2011)+topPad)
-				.attr("r", 15)
-				.attr("fill", "blue")
+				.attr("cy", yScale(word.year2011)+topPad)
+				.attr("r", 5)
+				.attr("fill", word.color)
 				.attr("fill-opacity", opacityScale(word.year2011));
 				//.attr("transform", "translate("+tranCtr+", 0)");
 
 				svg2a.append("circle")
 				.attr("cx", xArr[1]+leftPad)
-				.attr("cy", countScale(word.year2012)+topPad)
-				.attr("r", 15)
-				.attr("fill", "red")
+				.attr("cy", yScale(word.year2012)+topPad)
+				.attr("r", 5)
+				.attr("fill", word.color)
 				.attr("fill-opacity", opacityScale(word.year2012));
 				//.attr("transform", "translate("+tranCtr+", 0)");
 
 				svg2a.append("circle")
 				.attr("cx", xArr[2]+leftPad)
-				.attr("cy", countScale(word.year2013)+topPad)
-				.attr("r", 15)
-				.attr("fill", "green")
+				.attr("cy", yScale(word.year2013)+topPad)
+				.attr("r", 5)
+				.attr("fill", word.color)
 				.attr("fill-opacity", opacityScale(word.year2013));
 				//.attr("transform", "translate("+tranCtr+", 0)");
-
-	
 			
 			});
 });
