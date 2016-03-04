@@ -98,13 +98,20 @@
 			.attr("x",xScale(state.longitude)+leftPad)//x
 			.attr("y",yScale(state.latitude)+topPad);//y
 
-			mapsvg.append("rect")
+/*			mapsvg.append("rect")
 			.attr("height",20)
 			.attr("width", 20)
 			.attr("stroke","red")
 			.attr("fill","none")
 			.attr("x",xScale(state.longitude)+leftPad-10)//x
 			.attr("y",yScale(state.latitude)+topPad-10);//y
+*/
+			mapsvg.append("circle")
+			.attr("r",15)
+			.attr("stroke","red")
+			.attr("fill","none")
+			.attr("cx",xScale(state.longitude)+leftPad)//x
+			.attr("cy",yScale(state.latitude)+topPad);//y
 		});
 
 	</script>
