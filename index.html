@@ -294,33 +294,30 @@
   			if (error) return console.warn(error);
   			drgData = json;
 		
-		
-		drgData.forEach(function (word) {
-
-				
+		drgData.forEach(function (drg) {
 
 				svg2a.append("circle")
 				.attr("cx", xArr[0]+leftPad)
-				.attr("cy", yScale(word.year2011)+topPad)
+				.attr("cy", yScale(drg.year2011)+topPad)
 				.attr("r", 5)
-				.attr("fill", word.color)
-				.attr("fill-opacity", opacityScale(word.year2011));
+				.attr("fill", drg.color)
+				.attr("fill-opacity", opacityScale(drg.year2011));
 				//.attr("transform", "translate("+tranCtr+", 0)");
 
 				svg2a.append("circle")
 				.attr("cx", xArr[1]+leftPad)
-				.attr("cy", yScale(word.year2012)+topPad)
+				.attr("cy", yScale(drg.year2012)+topPad)
 				.attr("r", 5)
-				.attr("fill", word.color)
-				.attr("fill-opacity", opacityScale(word.year2012));
+				.attr("fill", drg.color)
+				.attr("fill-opacity", opacityScale(drg.year2012));
 				//.attr("transform", "translate("+tranCtr+", 0)");
 
 				svg2a.append("circle")
 				.attr("cx", xArr[2]+leftPad)
-				.attr("cy", yScale(word.year2013)+topPad)
+				.attr("cy", yScale(drg.year2013)+topPad)
 				.attr("r", 5)
-				.attr("fill", word.color)
-				.attr("fill-opacity", opacityScale(word.year2013));
+				.attr("fill", drg.color)
+				.attr("fill-opacity", opacityScale(drg.year2013));
 				//.attr("transform", "translate("+tranCtr+", 0)");
 			
 			});
