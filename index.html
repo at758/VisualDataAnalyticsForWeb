@@ -34,7 +34,7 @@
 		//TODO: remove comments
 
 		var svg2a = d3.select("#p2output").append("svg");
-		svg2a.attr("height",1500).attr("width",1000);
+		svg2a.attr("height",500).attr("width",1000);
 
 
 		svg2a.append("rect")
@@ -67,6 +67,8 @@
 		var xScale = d3.scale.linear().domain([10000,60000]).range([0, width]);
 		var yScale = d3.scale.linear().domain([10000,125000]).range([height, 0]);
 
+		//10000
+		//125000	
 		var radScale = d3.scale.linear().domain([18250, 58000]).range([20, 35]);
 		var opacityScale = d3.scale.linear().domain([9000, 150000]).range([0.2, 1]);
 
@@ -87,7 +89,7 @@
 		var yearCntGreen = 0;
 		var ctrVar = 0;
 
-		var xArr = [xScale(52062.94) - 650, xScale(59444.46) - 550, xScale(66698.56) - 450];
+		var xArr = [xScale(52062.94) - 690, xScale(59444.46) - 590, xScale(66698.56) - 490];
 
 		var hashObj = {};
 
@@ -98,7 +100,7 @@
 		var avgCharge = "\"Avg. charge, provider billed to Medicare\"";
 
 		svg2a.append("line")
-			.attr("stroke", " #E4287C")
+			.attr("stroke", "white")
 			.attr("stroke-width", "1")
 			.attr("x1", xArr[1] - 100)
 			.attr("y1", topPad)
@@ -107,7 +109,7 @@
 			.attr("y2", 1000 - topPad - botPad);
 
 		svg2a.append("line")
-			.attr("stroke", " #E4287C")
+			.attr("stroke", "white")
 			.attr("stroke-width", "1")
 			.attr("x1", xArr[2] - 100)
 			.attr("y1", topPad)
@@ -115,8 +117,9 @@
 			.attr("x2", xArr[2] - 100)
 			.attr("y2", 1000 - topPad - botPad);
 
+
 		svg2a.append("line")
-			.attr("stroke", " #E4287C")
+			.attr("stroke", "white")
 			.attr("stroke-width", "1")
 			.attr("x1", xArr[2] + 130)
 			.attr("y1", topPad)
@@ -126,39 +129,41 @@
 
 		svg2a.append("text")
 			.text("2011")
-			.attr("font-size",20)
+			.attr("font-size",15)
 			.attr("text-anchor","middle")
 			.attr("alignment-baseline","middle")
 			.attr("fill","#f8f8ff")
 			.attr("x", 150)//x
-			.attr("y", 1000 - topPad - botPad - 940);//y
+			.attr("y", 500 - 10);//y
 
 		svg2a.append("text")
 			.text("2012")
-			.attr("font-size",20)
+			.attr("font-size",15)
 			.attr("text-anchor","middle")
 			.attr("alignment-baseline","middle")
 			.attr("fill","#f8f8ff")
-			.attr("x", 400)//x
-			.attr("y", 1000 - topPad - botPad - 940);//y
+			.attr("x", 390)//x
+			.attr("y", 500 - 10);//y
 
 		svg2a.append("text")
 			.text("2013")
-			.attr("font-size",20)
+			.attr("font-size",15)
 			.attr("text-anchor","middle")
 			.attr("alignment-baseline","middle")
 			.attr("fill","#f8f8ff")
 			.attr("x", 630)//x
-			.attr("y", 1000 - topPad - botPad - 940);//y
+			.attr("y", 500 - 10);//y
 
-		svg2a.append("text")
+		/*svg2a.append("text")
 			.text("Key")
-			.attr("font-size",20)
+			.attr("font-size",15)
 			.attr("text-anchor","middle")
 			.attr("alignment-baseline","middle")
 			.attr("fill","#f8f8ff")
 			.attr("x", 880)//x
-			.attr("y", 1000 - topPad - botPad - 940);//y
+			.attr("y", 500 - 10);//y
+
+		*/
 
 	/*	svg2a.append("circle")
 				.attr("cx", 880)
@@ -281,7 +286,7 @@
 				
 		//var yearPayName = ["year2011", "year2012", "year2013"];
 		var cntName = 580;
-		var totWordCtr = 0;
+		var totWordCtr = 10;
 
 		var drgData;
 
@@ -289,8 +294,10 @@
   			if (error) return console.warn(error);
   			drgData = json;
 		
-
+		
 		drgData.forEach(function (word) {
+
+				
 
 				svg2a.append("circle")
 				.attr("cx", xArr[0]+leftPad)
