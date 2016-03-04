@@ -51,10 +51,10 @@
 		var height = svg2a.attr("height")-topPad-botPad;
 		var width = svg2a.attr("width")-leftPad-rightPad;
 		var rankScale = d3.scale.linear().domain([10000,60000]).range([0, width]);
-		var countScale = d3.scale.linear().domain([4000,16000]).range([height, 0]);
+		var countScale = d3.scale.linear().domain([9000,150000]).range([height, 0]);
 
 		var radScale = d3.scale.linear().domain([18250, 58000]).range([20, 35]);
-		var opacityScale = d3.scale.linear().domain([131207, 427207]).range([1, 1]);
+		var opacityScale = d3.scale.linear().domain([9000, 150000]).range([0.2, 1]);
 
 
 
@@ -146,7 +146,7 @@
 			.attr("x", 880)//x
 			.attr("y", 1000 - topPad - botPad - 940);//y
 
-		svg2a.append("circle")
+	/*	svg2a.append("circle")
 				.attr("cx", 880)
 				.attr("cy", 100)
 				.attr("r", 35)
@@ -170,9 +170,10 @@
 			.attr("fill","#f8f8ff")
 			.attr("x", 880)//x
 			.attr("y", 90);//y
+			*/
 
 
-			svg2a.append("text")
+		/*	svg2a.append("text")
 			.text("Y-Axis")
 			.attr("font-size",13)
 			.attr("text-anchor","middle")
@@ -207,8 +208,9 @@
 			.attr("fill","#f8f8ff")
 			.attr("x", 880)//x
 			.attr("y", 550);//y
+			*/
 
-		svg2a.append("text")
+		/*svg2a.append("text")
 			.text("Discharges")
 			.attr("font-size",13)
 			.attr("text-anchor","middle")
@@ -243,8 +245,9 @@
 			.attr("fill","white")
 			.attr("x", 880)//x
 			.attr("y", 320);//y
+			*/
 
-		svg2a.append("text")
+		/*svg2a.append("text")
 			.text("MCC = Major Complications")
 			.attr("font-size",12)
 			.attr("text-anchor","middle")
@@ -260,9 +263,9 @@
 			.attr("alignment-baseline","middle")
 			.attr("fill","#f8f8ff")
 			.attr("x", 880)//x
-			.attr("y", 500);//y
+			.attr("y", 500);//y*/
 				
-		
+		//var yearPayName = ["year2011", "year2012", "year2013"];
 		var cntName = 580;
 		var totWordCtr = 0;
 
@@ -275,138 +278,35 @@
 
 		drgData.forEach(function (word) {
 
-			
-
-			if(totWordCtr <= 12)
-			{
-			svg2a.append("text")
-				.text(word.nameOfDRG)
-				.attr("font-size",11)
-				.attr("text-anchor","middle")
-				.attr("alignment-baseline","middle")
-				.attr("fill", word.color)
-				.attr("fill-opacity", 0.3)
-				.attr("x", 880)//x
-				.attr("y", cntName);
-			}
-
-			totWordCtr++;
-			cntName = cntName + 30;
-
-			//Using a hashtable to store colors and counts
-			if(!(word.color in hashObj))
-			{
-				hashObj[word.color] = 0
-			}
-
-			var tranCtr;
-
-			function kFormatter(num) {
-    		return (num > 999 && num < 49000) ? '$' + (num/1000).toFixed(1) + 'k' : (num/1000).toFixed(0) + 'k';
-			}
-			
-			if(word.color == "olive" || word.color == "lime" || word.color == "purple" || word.color == "teal" || word.color == "blue")
-			{
-				if(word.color == "olive")
-					tranCtr = 50;
-				else if(word.color == "lime" || word.color == "teal" || word.color =="blue")
-					tranCtr = -50;
-				else
-				{
-					tranCtr =  -90;
-				}
+				svg2a.append("circle")
+				.attr("cx", xArr[0]+leftPad)
+				.attr("cy", countScale(word.year2011)+topPad)
+				.attr("r", 15)
+				.attr("fill", "blue")
+				.attr("fill-opacity", opacityScale(word.year2011));
+				//.attr("transform", "translate("+tranCtr+", 0)");
 
 				svg2a.append("circle")
-				.attr("cx", xArr[hashObj[word.color]]+leftPad)
-				.attr("cy", countScale(word.avgTotPayment)+topPad)
-				.attr("r", radScale(word.avgCoveredCharge))
-				.attr("fill", word.color)
-				.attr("fill-opacity", 0.3)
-				.attr("transform", "translate("+tranCtr+", 0)");
+				.attr("cx", xArr[1]+leftPad)
+				.attr("cy", countScale(word.year2012)+topPad)
+				.attr("r", 15)
+				.attr("fill", "red")
+				.attr("fill-opacity", opacityScale(word.year2012));
+				//.attr("transform", "translate("+tranCtr+", 0)");
 
-				svg2a.append("text")
-				.text(kFormatter(word.avgCoveredCharge))
-				.attr("font-size",12)
-				.attr("text-anchor","middle")
-				.attr("alignment-baseline","middle")
-				.attr("fill","#f8f8ff")
-				.attr("x", xArr[hashObj[word.color]]+leftPad)//x
-				.attr("y", countScale(word.avgTotPayment)+topPad + 5)
-				.attr("transform", "translate("+tranCtr+", 0)");
-
-				svg2a.append("text")
-				.text(kFormatter(word.totDischarges))
-				.attr("font-size",12)
-				.attr("text-anchor","middle")
-				.attr("alignment-baseline","middle")
-				.attr("fill","#f8f8ff")
-				.attr("x", xArr[hashObj[word.color]]+leftPad)//x
-				.attr("y", countScale(word.avgTotPayment)+topPad - 7)
-				.attr("transform", "translate("+tranCtr+", 0)");
-			}
-			else
-			{
 				svg2a.append("circle")
-				.attr("cx", xArr[hashObj[word.color]]+leftPad)
-				.attr("cy", countScale(word.avgTotPayment)+topPad)
-				.attr("r", radScale(word.avgCoveredCharge))
-				.attr("fill-opacity", 0.3)
-				.attr("fill", word.color);
+				.attr("cx", xArr[2]+leftPad)
+				.attr("cy", countScale(word.year2013)+topPad)
+				.attr("r", 15)
+				.attr("fill", "green")
+				.attr("fill-opacity", opacityScale(word.year2013));
+				//.attr("transform", "translate("+tranCtr+", 0)");
 
-				svg2a.append("text")
-				.text(kFormatter(word.avgCoveredCharge))
-				.attr("font-size",12)
-				.attr("text-anchor","middle")
-				.attr("alignment-baseline","middle")
-				.attr("fill","#f8f8ff")
-				.attr("x", xArr[hashObj[word.color]] + leftPad)//x
-				.attr("y", countScale(word.avgTotPayment) + topPad + 5);
-
-				svg2a.append("text")
-				.text(kFormatter(word.totDischarges))
-				.attr("font-size",12)
-				.attr("text-anchor","middle")
-				.attr("alignment-baseline","middle")
-				.attr("fill","#f8f8ff")
-				.attr("x", xArr[hashObj[word.color]]+leftPad)//x
-				.attr("y", countScale(word.avgTotPayment)+topPad - 7);
-				
-				
-			}
-			
-			
-
-			/*svg2a.append("line")
-			.attr("stroke","black")
-			.attr("stroke-width", 0.2)
-			.attr("x1", xArr[hashObj[word.color]] + leftPad)
-			.attr("y1", countScale(word.avgTotPayment) + topPad)
-			.attr("x2", xArr[hashObj[word.color]]+ leftPad)
-			.attr("y2", 470);
-			*/
-
-			/*svg2a.append("line")
-			.attr("stroke","black")
-			.attr("stroke-width", 0.2)
-			.attr("x1", xArr[hashObj[word.color]] + leftPad)
-			.attr("y1", countScale(word.avgTotPayment) + topPad)
-			.attr("x2", 40)
-			.attr("y2", countScale(word.avgTotPayment) + topPad);
-			*/
-			hashObj[word.color]++;
+	
 			
 			});
 });
 
-		/*svg2a.append("text").text("avgTotPayment") //y-axis label
-		.attr("opacity",0.75).attr("writing-mode","vertical-rl")
-		.attr("x",10).attr("y",topPad + height/2)
-		.attr("font-size",9).attr("text-anchor","middle").attr("fill","#f8f8ff");
-			*/
-		/*svg2a.append("text").text("avgCoveredCharge") //x-axis label
-		.attr("x",width/2+leftPad).attr("y",topPad+height+botPad-5)
-		.attr("opacity",0.75)
-		.attr("font-size",9).attr("text-anchor","middle");*/
 	</script>
 	</p>
 
