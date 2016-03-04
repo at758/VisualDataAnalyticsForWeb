@@ -25,55 +25,55 @@
 	<h3>CS/INFO 3300 / INFO 5100</h3>
 	<h3>Project 1</h3>
 	<h3>Richard Quan (NetID: rq32), Akshay Tata(at758), YuanYuan Li(yl2577)</h3>
-	<h1>Medicare Provider Utilization and Payment Data: Inpatient</h1>
+	<h1>Medicare Provider Utilization and Payment Data for Inpatients</h1>
 
-	<p id="p2output">
+	<p id="viz1">
 	<script>
-		var drgData = [{"nameOfDRG":"JOINT REPLACEMENT W/O MCC ","totDischarges":427207,"avgCoveredCharge":52062.94,"avgTotPayment":14566.93,"difference":37496.01,"year":2011,"color":"red"},
-{"nameOfDRG":"SEVERE SEPSIS W/O MV 96+ HOURS W MCC","totDischarges":319072,"avgCoveredCharge":45935.00,"avgTotPayment":13238.83,"difference":32696.17,"year":2011,"color":"orange"},
-{"nameOfDRG":"MISC. DIGEST DISORDERS W/O MCC","totDischarges":244854,"avgCoveredCharge":19086.72,"avgTotPayment":5041.77,"difference":14044.95,"year":2011,"color":"magenta"},
-{"nameOfDRG":"HEART FAILURE & SHOCK W CC","totDischarges":222038,"avgCoveredCharge":23517.99,"avgTotPayment":6957.84,"difference":16560.15,"year":2011,"color":"olive"},
-{"nameOfDRG":"HEART FAILURE & SHOCK W MCC","totDischarges":185599,"avgCoveredCharge":35901.91,"avgTotPayment":10266.55,"difference":25635.36,"year":2011,"color":"green"},
-{"nameOfDRG":"SIMPLE PNEUMONIA & PLEURISY W CC","totDischarges":198390,"avgCoveredCharge":24549.39,"avgTotPayment":6963.26,"difference":17586.13,"year":2011,"color":"purple"},
-{"nameOfDRG":"URINARY TRACT INFECTIONS W/O MCC","totDischarges":206695,"avgCoveredCharge":18280.24,"avgTotPayment":5353.77,"difference":12926.47,"year":2011,"color":"teal"},
-{"nameOfDRG":"RENAL FAILURE W CC","totDischarges":150444,"avgCoveredCharge":24689.48,"avgTotPayment":6995.78,"difference":17693.70,"year":2011,"color":"#D2B9D3"},
-{"nameOfDRG":"CHRONIC PULM DISEASE W MCC","totDischarges":149677,"avgCoveredCharge":29140.95,"avgTotPayment":8162.99,"difference":20977.96,"year":2011,"color":"#FF2400"},
-{"nameOfDRG":"PNEUMONIA & PLEURISY W MCC","totDischarges":127989,"avgCoveredCharge":37408.92,"avgTotPayment":10053.69,"difference":27355.23,"year":2011,"color":"blue"},
-{"nameOfDRG":"G.I. HEMORRHAGE W CC","totDischarges":138678,"avgCoveredCharge":25399.52,"avgTotPayment":7027.51,"difference":18372.01,"year":2011,"color":"black"},
-{"nameOfDRG":"CHRONIC PULMONARY DISEASE W CC","totDischarges":148491,"avgCoveredCharge":23397.80,"avgTotPayment":6627.32,"difference":16770.48,"year":2011,"color":"#FBB117"},
-{"nameOfDRG":"CELLULITIS W/O MCC","totDischarges":140894,"avgCoveredCharge":18968.73,"avgTotPayment":5798.95,"difference":13169.78,"year":2011,"color":"grey"},
-{"nameOfDRG":"JOINT REPLACEMENT W/O MCC ","totDischarges":430717,"avgCoveredCharge":54444.46,"avgTotPayment":14695.60,"difference":39748.86,"year":2012,"color":"red"},
-{"nameOfDRG":"SEVERE SEPSIS W/O MV 96+ HOURS W MCC","totDischarges":345343,"avgCoveredCharge":47328.72,"avgTotPayment":13418.38,"difference":33910.34,"year":2012,"color":"orange"},
-{"nameOfDRG":"MISC. DIGEST DISORDERS W/O MCC","totDischarges":215483,"avgCoveredCharge":20743.49,"avgTotPayment":5175.63,"difference":15567.86,"year":2012,"color":"magenta"},
-{"nameOfDRG":"HEART FAILURE & SHOCK W CC","totDischarges":204069,"avgCoveredCharge":24593.48,"avgTotPayment":7009.90,"difference":17583.58,"year":2012,"color":"olive"},
-{"nameOfDRG":"HEART FAILURE & SHOCK W MCC","totDischarges":182445,"avgCoveredCharge":37512.07,"avgTotPayment":10408.94,"difference":27103.13,"year":2012,"color":"green"},
-{"nameOfDRG":"SIMPLE PNEUMONIA & PLEURISY W CC","totDischarges":180262,"avgCoveredCharge":25339.73,"avgTotPayment":6973.60,"difference":18366.13,"year":2012,"color":"purple"},
-{"nameOfDRG":"URINARY TRACT INFECTIONS W/O MCC","totDischarges":195346,"avgCoveredCharge":19322.23,"avgTotPayment":5442.11,"difference":13880.12,"year":2012,"color":"teal"},
-{"nameOfDRG":"RENAL FAILURE W CC","totDischarges":153170,"avgCoveredCharge":25154.77,"avgTotPayment":7047.76,"difference":18107.01,"year":2012,"color":"#D2B9D3"},
-{"nameOfDRG":"CHRONIC PULM DISEASE W MCC","totDischarges":140495,"avgCoveredCharge":30254.17,"avgTotPayment":8102.55,"difference":22151.62,"year":2012,"color":"#FF2400"},
-{"nameOfDRG":"PNEUMONIA & PLEURISY W MCC","totDischarges":127832,"avgCoveredCharge":38408.51,"avgTotPayment":10248.28,"difference":28160.23,"year":2012,"color":"blue"},
-{"nameOfDRG":"G.I. HEMORRHAGE W CC","totDischarges":138921,"avgCoveredCharge":26692.22,"avgTotPayment":7102.76,"difference":19589.46,"year":2012,"color":"black"},
-{"nameOfDRG":"CHRONIC PULMONARY DISEASE W CC","totDischarges":135081,"avgCoveredCharge":24481.89,"avgTotPayment":6646.73,"difference":17835.16,"year":2012,"color":"#FBB117"},
-{"nameOfDRG":"CELLULITIS W/O MCC","totDischarges":140038,"avgCoveredCharge":19850.70,"avgTotPayment":5902.25,"difference":13948.45,"year":2012,"color":"grey"},
-{"nameOfDRG":"JOINT REPLACEMENT W/O MCC ","totDischarges":444816,"avgCoveredCharge":56698.56,"avgTotPayment":15087.75,"difference":41610.81,"year":2013,"color":"red"},
-{"nameOfDRG":"SEVERE SEPSIS W/O MV 96+ HOURS W MCC","totDischarges":396451,"avgCoveredCharge":48464.80,"avgTotPayment":13571.36,"difference":34893.44,"year":2013,"color":"orange"},
-{"nameOfDRG":"MISC. DIGEST DISORDERS W/O MCC","totDischarges":197086,"avgCoveredCharge":21830.43,"avgTotPayment":5366.24,"difference":16464.19,"year":2013,"color":"magenta"},
-{"nameOfDRG":"HEART FAILURE & SHOCK W CC","totDischarges":196318,"avgCoveredCharge":25544.78,"avgTotPayment":7036.10,"difference":18508.68,"year":2013,"color":"olive"},
-{"nameOfDRG":"HEART FAILURE & SHOCK W MCC","totDischarges":192040,"avgCoveredCharge":38737.65,"avgTotPayment":10735.95,"difference":28001.70,"year":2013,"color":"green"},
-{"nameOfDRG":"SIMPLE PNEUMONIA & PLEURISY W CC","totDischarges":181006,"avgCoveredCharge":26064.83,"avgTotPayment":7101.01,"difference":18963.82,"year":2013,"color":"purple"},
-{"nameOfDRG":"URINARY TRACT INFECTIONS W/O MCC","totDischarges":173271,"avgCoveredCharge":20476.75,"avgTotPayment":5533.59,"difference":14943.16,"year":2013,"color":"teal"},
-{"nameOfDRG":"RENAL FAILURE W CC","totDischarges":150966,"avgCoveredCharge":26019.39,"avgTotPayment":7046.09,"difference":18973.30,"year":2013,"color":"#D2B9D3"},
-{"nameOfDRG":"CHRONIC PULM DISEASE W MCC","totDischarges":150332,"avgCoveredCharge":31551.28,"avgTotPayment":8409.13,"difference":23142.15,"year":2013,"color":"#FF2400"},
-{"nameOfDRG":"PNEUMONIA & PLEURISY W MCC","totDischarges":142245,"avgCoveredCharge":39470.03,"avgTotPayment":10446.80,"difference":29023.23,"year":2013,"color":"blue"},
-{"nameOfDRG":"G.I. HEMORRHAGE W CC","totDischarges":138190,"avgCoveredCharge":28132.11,"avgTotPayment":7215.59,"difference":20916.52,"year":2013,"color":"black"},
-{"nameOfDRG":"CHRONIC PULMONARY DISEASE W CC","totDischarges":133597,"avgCoveredCharge":25438.09,"avgTotPayment":6716.81,"difference":18721.28,"year":2013,"color":"#FBB117"},
-{"nameOfDRG":"CELLULITIS W/O MCC","totDischarges":131207,"avgCoveredCharge":20930.64,"avgTotPayment":6008.70,"difference":14921.94,"year":2013,"color":"grey"}];
+		var drgData = [{"nameOfDRG":"JOINT REPLACEMENT W/O MCC ","totDischarges":428495,"avgCoveredCharge":50115.72,"avgTotPayment":14328.81,"difference":35786.91,"year":2011,"color":"red"},
+{"nameOfDRG":"SEVERE SEPSIS W/O MV 96+ HOURS W MCC","totDischarges":320859,"avgCoveredCharge":49282.01,"avgTotPayment":13644.14,"difference":35637.87,"year":2011,"color":"orange"},
+{"nameOfDRG":"MISC. DIGEST DISORDERS W/O MCC","totDischarges":246605,"avgCoveredCharge":20278.22,"avgTotPayment":5099.19,"difference":15179.03,"year":2011,"color":"yellow"},
+{"nameOfDRG":"HEART FAILURE & SHOCK W CC","totDischarges":223501,"avgCoveredCharge":25061.60,"avgTotPayment":7101.15,"difference":17960.45,"year":2011,"color":"olive"},
+{"nameOfDRG":"HEART FAILURE & SHOCK W MCC","totDischarges":188376,"avgCoveredCharge":37994.32,"avgTotPayment":10401.82,"difference":27592.50,"year":2011,"color":"green"},
+{"nameOfDRG":"SIMPLE PNEUMONIA & PLEURISY W CC","totDischarges":199662,"avgCoveredCharge":25312.42,"avgTotPayment":6969.28,"difference":18343.14,"year":2011,"color":"purple"},
+{"nameOfDRG":"URINARY TRACT INFECTIONS W/O MCC","totDischarges":208113,"avgCoveredCharge":19828.73,"avgTotPayment":5413.75,"difference":14414.98,"year":2011,"color":"teal"},
+{"nameOfDRG":"RENAL FAILURE W CC","totDischarges":154063,"avgCoveredCharge":25164.65,"avgTotPayment":7104.11,"difference":18060.54,"year":2011,"color":"lime"},
+{"nameOfDRG":"CHRONIC PULM DISEASE W MCC","totDischarges":152277,"avgCoveredCharge":30030.72,"avgTotPayment":8125.47,"difference":21905.25,"year":2011,"color":"aqua"},
+{"nameOfDRG":"PNEUMONIA & PLEURISY W MCC","totDischarges":131396,"avgCoveredCharge":37408.98,"avgTotPayment":9997.52,"difference":27411.46,"year":2011,"color":"blue"},
+{"nameOfDRG":"G.I. HEMORRHAGE W CC","totDischarges":141873,"avgCoveredCharge":25904.41,"avgTotPayment":7082.33,"difference":18822.08,"year":2011,"color":"black"},
+{"nameOfDRG":"CHRONIC PULMONARY DISEASE W CC","totDischarges":151211,"avgCoveredCharge":24226.11,"avgTotPayment":6639.31,"difference":17586.80,"year":2011,"color":"navy"},
+{"nameOfDRG":"CELLULITIS W/O MCC","totDischarges":143477,"avgCoveredCharge":20157.39,"avgTotPayment":5887.76,"difference":14269.63,"year":2011,"color":"silver"},
+{"nameOfDRG":"JOINT REPLACEMENT W/O MCC ","totDischarges":432007,"avgCoveredCharge":52249.25,"avgTotPayment":14469.80,"difference":37779.45,"year":2012,"color":"red"},
+{"nameOfDRG":"SEVERE SEPSIS W/O MV 96+ HOURS W MCC","totDischarges":347249,"avgCoveredCharge":50824.54,"avgTotPayment":13867.78,"difference":36956.76,"year":2012,"color":"orange"},
+{"nameOfDRG":"MISC. DIGEST DISORDERS W/O MCC","totDischarges":217514,"avgCoveredCharge":21988.72,"avgTotPayment":5268.36,"difference":16720.36,"year":2012,"color":"yellow"},
+{"nameOfDRG":"HEART FAILURE & SHOCK W CC","totDischarges":205955,"avgCoveredCharge":26084.52,"avgTotPayment":7181.59,"difference":18902.93,"year":2012,"color":"olive"},
+{"nameOfDRG":"HEART FAILURE & SHOCK W MCC","totDischarges":185452,"avgCoveredCharge":39370.72,"avgTotPayment":10571.93,"difference":28798.79,"year":2012,"color":"green"},
+{"nameOfDRG":"SIMPLE PNEUMONIA & PLEURISY W CC","totDischarges":181714,"avgCoveredCharge":26127.53,"avgTotPayment":6965.02,"difference":19162.51,"year":2012,"color":"purple"},
+{"nameOfDRG":"URINARY TRACT INFECTIONS W/O MCC","totDischarges":197146,"avgCoveredCharge":20822.23,"avgTotPayment":5503.43,"difference":15318.80,"year":2012,"color":"teal"},
+{"nameOfDRG":"RENAL FAILURE W CC","totDischarges":156685,"avgCoveredCharge":25745.19,"avgTotPayment":7143.49,"difference":18601.70,"year":2012,"color":"lime"},
+{"nameOfDRG":"CHRONIC PULM DISEASE W MCC","totDischarges":143163,"avgCoveredCharge":31041.76,"avgTotPayment":8031.95,"difference":23009.81,"year":2012,"color":"aqua"},
+{"nameOfDRG":"PNEUMONIA & PLEURISY W MCC","totDischarges":131219,"avgCoveredCharge":38384.10,"avgTotPayment":10179.06,"difference":28205.04,"year":2012,"color":"blue"},
+{"nameOfDRG":"G.I. HEMORRHAGE W CC","totDischarges":142075,"avgCoveredCharge":27217.12,"avgTotPayment":7165.36,"difference":20051.76,"year":2012,"color":"black"},
+{"nameOfDRG":"CHRONIC PULMONARY DISEASE W CC","totDischarges":138337,"avgCoveredCharge":24992.06,"avgTotPayment":6640.77,"difference":18351.29,"year":2012,"color":"navy"},
+{"nameOfDRG":"CELLULITIS W/O MCC","totDischarges":142752,"avgCoveredCharge":21038.68,"avgTotPayment":6007.25,"difference":15031.43,"year":2012,"color":"silver"},
+{"nameOfDRG":"JOINT REPLACEMENT W/O MCC ","totDischarges":446148,"avgCoveredCharge":54238.62,"avgTotPayment":14794.56,"difference":39444.06,"year":2013,"color":"red"},
+{"nameOfDRG":"SEVERE SEPSIS W/O MV 96+ HOURS W MCC","totDischarges":398004,"avgCoveredCharge":51594.24,"avgTotPayment":13972.00,"difference":37622.24,"year":2013,"color":"orange"},
+{"nameOfDRG":"MISC. DIGEST DISORDERS W/O MCC","totDischarges":199292,"avgCoveredCharge":23058.78,"avgTotPayment":5469.29,"difference":17589.49,"year":2013,"color":"yellow"},
+{"nameOfDRG":"HEART FAILURE & SHOCK W CC","totDischarges":198483,"avgCoveredCharge":26830.41,"avgTotPayment":7189.53,"difference":19640.88,"year":2013,"color":"olive"},
+{"nameOfDRG":"HEART FAILURE & SHOCK W MCC","totDischarges":194697,"avgCoveredCharge":41021.34,"avgTotPayment":10858.95,"difference":30162.39,"year":2013,"color":"green"},
+{"nameOfDRG":"SIMPLE PNEUMONIA & PLEURISY W CC","totDischarges":182388,"avgCoveredCharge":26964.06,"avgTotPayment":7101.02,"difference":19863.04,"year":2013,"color":"purple"},
+{"nameOfDRG":"URINARY TRACT INFECTIONS W/O MCC","totDischarges":175529,"avgCoveredCharge":22061.28,"avgTotPayment":5597.65,"difference":16463.63,"year":2013,"color":"teal"},
+{"nameOfDRG":"RENAL FAILURE W CC","totDischarges":154280,"avgCoveredCharge":26452.32,"avgTotPayment":7120.69,"difference":19331.63,"year":2013,"color":"lime"},
+{"nameOfDRG":"CHRONIC PULM DISEASE W MCC","totDischarges":152880,"avgCoveredCharge":32391.28,"avgTotPayment":8338.49,"difference":24052.79,"year":2013,"color":"aqua"},
+{"nameOfDRG":"PNEUMONIA & PLEURISY W MCC","totDischarges":145391,"avgCoveredCharge":39601.52,"avgTotPayment":10352.03,"difference":29249.49,"year":2013,"color":"blue"},
+{"nameOfDRG":"G.I. HEMORRHAGE W CC","totDischarges":141425,"avgCoveredCharge":28517.68,"avgTotPayment":7267.76,"difference":21249.92,"year":2013,"color":"black"},
+{"nameOfDRG":"CHRONIC PULMONARY DISEASE W CC","totDischarges":136630,"avgCoveredCharge":26111.87,"avgTotPayment":6714.10,"difference":19397.77,"year":2013,"color":"navy"},
+{"nameOfDRG":"CELLULITIS W/O MCC","totDischarges":134288,"avgCoveredCharge":22062.89,"avgTotPayment":6112.00,"difference":15950.89,"year":2013,"color":"silver"}];
 
-		var svg2a = d3.select("#p2output").append("svg");
-		svg2a.attr("height",1000).attr("width",1000);
+		var svg1 = d3.select("#viz1").append("svg");
+		svg1.attr("height",1000).attr("width",1000);
 
 
-		svg2a.append("rect")
+		svg1.append("rect")
 		.attr("height","1000")
 		.attr("width", "1000")
 		.style("fill", "none");
@@ -85,10 +85,10 @@
 		var botPad = 30;
 		var leftPad = 40;
 		var rightPad = 10;
-		var height = svg2a.attr("height")-topPad-botPad;
-		var width = svg2a.attr("width")-leftPad-rightPad;
-		var rankScale = d3.scale.linear().domain([10000,60000]).range([0, width]);
-		var countScale = d3.scale.linear().domain([4000,16000]).range([height, 0]);
+		var height = svg1.attr("height")-topPad-botPad;
+		var width = svg1.attr("width")-leftPad-rightPad;
+		var xScale = d3.scale.linear().domain([10000,60000]).range([0, width]);
+		var yScale = d3.scale.linear().domain([4000,16000]).range([height, 0]);
 
 		var radScale = d3.scale.linear().domain([18250, 58000]).range([20, 35]);
 		var opacityScale = d3.scale.linear().domain([131207, 427207]).range([1, 1]);
@@ -96,21 +96,21 @@
 
 
 
-		/*var rankAxis = d3.svg.axis().scale(rankScale).orient("bottom").tickFormat(d3.format("s"));
-		svg2a.append("g").attr("class", "axis")
+		/*var xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickFormat(d3.format("s"));
+		svg1.append("g").attr("class", "axis")
 		.attr("transform", "translate("+leftPad+","+(height+topPad)+")")
-		.call(rankAxis);*/
+		.call(xAxis);*/
 
-		var countAxis = d3.svg.axis().scale(countScale).orient("left").tickFormat(d3.format("s"));
-		svg2a.append("g").attr("class", "axis")
+		var yAxis = d3.svg.axis().scale(yScale).orient("left").tickFormat(d3.format("s"));
+		svg1.append("g").attr("class", "axis")
 		.attr("transform", "translate("+leftPad+","+topPad+")")
-		.call(countAxis);
+		.call(yAxis);
 
 		var yearCnt = 0;
 		var yearCntGreen = 0;
 		var ctrVar = 0;
 
-		var xArr = [rankScale(52062.94) - 650, rankScale(59444.46) - 550, rankScale(66698.56) - 450];
+		var xArr = [xScale(52062.94) - 650, xScale(59444.46) - 550, xScale(66698.56) - 450];
 
 		var hashObj = {};
 
@@ -120,7 +120,7 @@
 
 		var avgCharge = "\"Avg. charge, provider billed to Medicare\"";
 
-		svg2a.append("line")
+		svg1.append("line")
 			.attr("stroke", " #E4287C")
 			.attr("stroke-width", "1")
 			.attr("x1", xArr[1] - 100)
@@ -129,7 +129,7 @@
 			.attr("opacity", "0.5")
 			.attr("y2", 1000 - topPad - botPad);
 
-		svg2a.append("line")
+		svg1.append("line")
 			.attr("stroke", " #E4287C")
 			.attr("stroke-width", "1")
 			.attr("x1", xArr[2] - 100)
@@ -138,7 +138,7 @@
 			.attr("x2", xArr[2] - 100)
 			.attr("y2", 1000 - topPad - botPad);
 
-		svg2a.append("line")
+		svg1.append("line")
 			.attr("stroke", " #E4287C")
 			.attr("stroke-width", "1")
 			.attr("x1", xArr[2] + 130)
@@ -147,7 +147,7 @@
 			.attr("x2", xArr[2] + 130)
 			.attr("y2", 1000 - topPad - botPad);
 
-		svg2a.append("text")
+		svg1.append("text")
 			.text("2011")
 			.attr("font-size",20)
 			.attr("text-anchor","middle")
@@ -156,7 +156,7 @@
 			.attr("x", 150)//x
 			.attr("y", 1000 - topPad - botPad + 10);//y
 
-		svg2a.append("text")
+		svg1.append("text")
 			.text("2012")
 			.attr("font-size",20)
 			.attr("text-anchor","middle")
@@ -165,7 +165,7 @@
 			.attr("x", 400)//x
 			.attr("y", 1000 - topPad - botPad + 10);//y
 
-		svg2a.append("text")
+		svg1.append("text")
 			.text("2013")
 			.attr("font-size",20)
 			.attr("text-anchor","middle")
@@ -174,7 +174,7 @@
 			.attr("x", 630)//x
 			.attr("y", 1000 - topPad - botPad + 10);//y
 
-		svg2a.append("text")
+		svg1.append("text")
 			.text("Infotopia")
 			.attr("font-size",20)
 			.attr("text-anchor","middle")
@@ -183,14 +183,14 @@
 			.attr("x", 880)//x
 			.attr("y", 1000 - topPad - botPad + 10);//y
 
-		svg2a.append("circle")
+		svg1.append("circle")
 				.attr("cx", 880)
 				.attr("cy", 100)
 				.attr("r", 35)
 				.attr("fill", "#493D26")
 				.attr("fill-opacity", 1);
 
-		svg2a.append("text")
+		svg1.append("text")
 			.text("Avg.Coverage")
 			.attr("font-size",11)
 			.attr("text-anchor","middle")
@@ -199,7 +199,7 @@
 			.attr("x", 880)//x
 			.attr("y", 105);//y
 
-		svg2a.append("text")
+		svg1.append("text")
 			.text("Discharges")
 			.attr("font-size",11)
 			.attr("text-anchor","middle")
@@ -209,7 +209,7 @@
 			.attr("y", 90);//y
 
 
-			svg2a.append("text")
+			svg1.append("text")
 			.text("Y-Axis")
 			.attr("font-size",13)
 			.attr("text-anchor","middle")
@@ -218,7 +218,7 @@
 			.attr("x", 880)//x
 			.attr("y", 400);//y
 
-		svg2a.append("text")
+		svg1.append("text")
 			.text("Total Payments in Dollars")
 			.attr("font-size",13)
 			.attr("text-anchor","middle")
@@ -227,7 +227,7 @@
 			.attr("x", 880)//x
 			.attr("y", 420);//y
 
-		svg2a.append("text")
+		svg1.append("text")
 			.text(avgtotText)
 			.attr("font-size",12)
 			.attr("text-anchor","middle")
@@ -236,7 +236,7 @@
 			.attr("x", 880)//x
 			.attr("y", 440);//y
 
-		svg2a.append("text")
+		svg1.append("text")
 			.text("DRG Procedures")
 			.attr("font-size",13)
 			.attr("text-anchor","middle")
@@ -245,7 +245,7 @@
 			.attr("x", 880)//x
 			.attr("y", 550);//y
 
-		svg2a.append("text")
+		svg1.append("text")
 			.text("Discharges")
 			.attr("font-size",13)
 			.attr("text-anchor","middle")
@@ -254,7 +254,7 @@
 			.attr("x", 880)//x
 			.attr("y", 220);//y
 
-		svg2a.append("text")
+		svg1.append("text")
 			.text(dischargeText)
 			.attr("font-size",11)
 			.attr("text-anchor","middle")
@@ -263,7 +263,7 @@
 			.attr("x", 880)//x
 			.attr("y", 240);//y
 
-		svg2a.append("text")
+		svg1.append("text")
 			.text("Average Coverage in Dollars")
 			.attr("font-size",13)
 			.attr("text-anchor","middle")
@@ -272,7 +272,7 @@
 			.attr("x", 880)//x
 			.attr("y", 300);//y
 
-		svg2a.append("text")
+		svg1.append("text")
 			.text(avgCharge)
 			.attr("font-size",12)
 			.attr("text-anchor","middle")
@@ -281,7 +281,7 @@
 			.attr("x", 880)//x
 			.attr("y", 320);//y
 
-		svg2a.append("text")
+		svg1.append("text")
 			.text("MCC = Major Complications")
 			.attr("font-size",12)
 			.attr("text-anchor","middle")
@@ -290,7 +290,7 @@
 			.attr("x", 880)//x
 			.attr("y", 480);//y
 
-		svg2a.append("text")
+		svg1.append("text")
 			.text("CC = Complications")
 			.attr("font-size",12)
 			.attr("text-anchor","middle")
@@ -305,7 +305,7 @@
 		drgData.forEach(function (word) {
 			if(totWordCtr <= 12)
 			{
-			svg2a.append("text")
+			svg1.append("text")
 				.text(word.nameOfDRG)
 				.attr("font-size",11)
 				.attr("text-anchor","middle")
@@ -342,93 +342,93 @@
 					tranCtr =  -90;
 				}
 
-				svg2a.append("circle")
+				svg1.append("circle")
 				.attr("cx", xArr[hashObj[word.color]]+leftPad)
-				.attr("cy", countScale(word.avgTotPayment)+topPad)
+				.attr("cy", yScale(word.avgTotPayment)+topPad)
 				.attr("r", radScale(word.avgCoveredCharge))
 				.attr("fill", word.color)
 				.attr("fill-opacity", 0.3)
 				.attr("transform", "translate("+tranCtr+", 0)");
 
-				svg2a.append("text")
+				svg1.append("text")
 				.text(kFormatter(word.avgCoveredCharge))
 				.attr("font-size",11)
 				.attr("text-anchor","middle")
 				.attr("alignment-baseline","middle")
 				.attr("fill","#f8f8ff")
 				.attr("x", xArr[hashObj[word.color]]+leftPad)//x
-				.attr("y", countScale(word.avgTotPayment)+topPad + 5)
+				.attr("y", yScale(word.avgTotPayment)+topPad + 5)
 				.attr("transform", "translate("+tranCtr+", 0)");
 
-				svg2a.append("text")
+				svg1.append("text")
 				.text(kFormatter(word.totDischarges))
 				.attr("font-size",11)
 				.attr("text-anchor","middle")
 				.attr("alignment-baseline","middle")
 				.attr("fill","#f8f8ff")
 				.attr("x", xArr[hashObj[word.color]]+leftPad)//x
-				.attr("y", countScale(word.avgTotPayment)+topPad - 7)
+				.attr("y", yScale(word.avgTotPayment)+topPad - 7)
 				.attr("transform", "translate("+tranCtr+", 0)");
 			}
 			else
 			{
-				svg2a.append("circle")
+				svg1.append("circle")
 				.attr("cx", xArr[hashObj[word.color]]+leftPad)
-				.attr("cy", countScale(word.avgTotPayment)+topPad)
+				.attr("cy", yScale(word.avgTotPayment)+topPad)
 				.attr("r", radScale(word.avgCoveredCharge))
 				.attr("fill-opacity", 0.3)
 				.attr("fill", word.color);
 
-				svg2a.append("text")
+				svg1.append("text")
 				.text(kFormatter(word.avgCoveredCharge))
 				.attr("font-size",11)
 				.attr("text-anchor","middle")
 				.attr("alignment-baseline","middle")
 				.attr("fill","#f8f8ff")
 				.attr("x", xArr[hashObj[word.color]] + leftPad)//x
-				.attr("y", countScale(word.avgTotPayment) + topPad + 5);
+				.attr("y", yScale(word.avgTotPayment) + topPad + 5);
 
-				svg2a.append("text")
+				svg1.append("text")
 				.text(kFormatter(word.totDischarges))
 				.attr("font-size",11)
 				.attr("text-anchor","middle")
 				.attr("alignment-baseline","middle")
 				.attr("fill","#f8f8ff")
 				.attr("x", xArr[hashObj[word.color]]+leftPad)//x
-				.attr("y", countScale(word.avgTotPayment)+topPad - 7);
+				.attr("y", yScale(word.avgTotPayment)+topPad - 7);
 				
 				
 			}
 			
 			
 
-			/*svg2a.append("line")
+			/*svg1.append("line")
 			.attr("stroke","black")
 			.attr("stroke-width", 0.2)
 			.attr("x1", xArr[hashObj[word.color]] + leftPad)
-			.attr("y1", countScale(word.avgTotPayment) + topPad)
+			.attr("y1", yScale(word.avgTotPayment) + topPad)
 			.attr("x2", xArr[hashObj[word.color]]+ leftPad)
 			.attr("y2", 470);
 			*/
 
-			/*svg2a.append("line")
+			/*svg1.append("line")
 			.attr("stroke","black")
 			.attr("stroke-width", 0.2)
 			.attr("x1", xArr[hashObj[word.color]] + leftPad)
-			.attr("y1", countScale(word.avgTotPayment) + topPad)
+			.attr("y1", yScale(word.avgTotPayment) + topPad)
 			.attr("x2", 40)
-			.attr("y2", countScale(word.avgTotPayment) + topPad);
+			.attr("y2", yScale(word.avgTotPayment) + topPad);
 			*/
 			hashObj[word.color]++;
 			
 			});
 
-		/*svg2a.append("text").text("avgTotPayment") //y-axis label
+		/*svg1.append("text").text("avgTotPayment") //y-axis label
 		.attr("opacity",0.75).attr("writing-mode","vertical-rl")
 		.attr("x",10).attr("y",topPad + height/2)
 		.attr("font-size",9).attr("text-anchor","middle").attr("fill","#f8f8ff");
 			*/
-		/*svg2a.append("text").text("avgCoveredCharge") //x-axis label
+		/*svg1.append("text").text("avgCoveredCharge") //x-axis label
 		.attr("x",width/2+leftPad).attr("y",topPad+height+botPad-5)
 		.attr("opacity",0.75)
 		.attr("font-size",9).attr("text-anchor","middle");*/
