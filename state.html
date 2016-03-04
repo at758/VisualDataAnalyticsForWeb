@@ -9,6 +9,7 @@
 		</style>
 	</head>
 	<body>
+	<h1>470 - MAJOR JOINT REPLACEMENT OR REATTACHMENT OF LOWER EXTREMITY W/O MCC - 2013 Gap and gap trend from 2011 to 2012</h1>
 	<div id="state"></div>
 	<script type="text/javascript">
 	var width = 960,
@@ -23,8 +24,10 @@
 	var inpatient;
 	
 	var statePath = svg.append("g");
-	var digitScale = d3.scale.category10()
+	var digitScale = d3.scale.category10();
 	var gapScale = d3.scale.linear().domain([0, 51000]).range(["#f5f5f5", "#3c857f"]);
+
+	var alldata = [];
 
 	d3.json("us.json", function(error, shapes) {
 	states = topojson.feature(shapes, shapes.objects.states).features;
@@ -35,35 +38,19 @@
 	.style("stroke", "#ccc");
 	});
 	
-	
 
-	d3.csv("inpatient.csv", function (error, rows) {
-		if (error) {console.log(error);}
-		
-		inpatient = d3.map(rows, function (states) { 
-			return Number(states.id); });
-		//console.log(gapScale(Number(inpatient.get("2").Gap)));
-		//console.log(statePath.selectAll("path"));
-		statePath.selectAll("path")
-				.style("fill", function(states){
-					var stateData = inpatient.get(states.id);
-					if(!stateData) {return "#000"};
-
-					return gapScale(Number(stateData.Gap))});
-		
-	});
 	
 	
 	var stateLocations = [
 		{"state":"AK","latitude":61.3850,"longitude":-152.2683},
 
 		{"state":"AL","latitude":32.7990,"longitude":-86.8073},
-		{"state":"AR","latitude":34.9513,"longitude":-92.3809},
+		{"state":"AR","latitude":33.9513,"longitude":-92.3809},//
 		{"state":"AZ","latitude":34.7712,"longitude":-115.3877},
 		{"state":"CA","latitude":36.1700,"longitude":-119.7462},
 		{"state":"CO","latitude":39.0646,"longitude":-105.3272},
 		{"state":"CT","latitude":41.5834,"longitude":-72.7622},
-		{"state":"DE","latitude":39.3498,"longitude":-75.5148},
+		{"state":"DE","latitude":38.3498,"longitude":-73.1148},//
 		{"state":"FL","latitude":27.8333,"longitude":-81.7170},
 		{"state":"GA","latitude":32.9866,"longitude":-83.6487},
 
@@ -74,36 +61,36 @@
 		{"state":"IL","latitude":40.3363,"longitude":-89.0022},
 		{"state":"IN","latitude":39.8647,"longitude":-86.2604},
 		{"state":"KS","latitude":38.5111,"longitude":-96.8005},
-		{"state":"KY","latitude":37.6690,"longitude":-84.6514},
-		{"state":"LA","latitude":31.1801,"longitude":-91.8749},
-		{"state":"MA","latitude":42.2373,"longitude":-71.5314},
-		{"state":"MD","latitude":39.0724,"longitude":-76.7902},
+		{"state":"KY","latitude":36.6690,"longitude":-84.6514},//
+		{"state":"LA","latitude":30.1801,"longitude":-92.8749},//
+		{"state":"MA","latitude":42.1373,"longitude":-69.5314},//
+		{"state":"MD","latitude":38.0724,"longitude":-74.7902},//
 		{"state":"ME","latitude":44.6074,"longitude":-69.3977},
 		{"state":"MI","latitude":43.3504,"longitude":-84.5603},
 		{"state":"MN","latitude":45.7326,"longitude":-93.9196},
 		{"state":"MO","latitude":38.4623,"longitude":-92.3020},
 		{"state":"MS","latitude":32.7673,"longitude":-89.6812},
 		{"state":"MT","latitude":46.9048,"longitude":-110.3261},
-		{"state":"NC","latitude":35.6411,"longitude":-79.8431},
+		{"state":"NC","latitude":34.8411,"longitude":-77.8431},//
 		{"state":"ND","latitude":47.5362,"longitude":-99.7930},
 		{"state":"NE","latitude":41.1289,"longitude":-98.2883},
 		{"state":"NH","latitude":43.4108,"longitude":-71.5653},
 		{"state":"NJ","latitude":40.3140,"longitude":-74.5089},
 		{"state":"NM","latitude":34.8375,"longitude":-106.2371},
-		{"state":"NV","latitude":38.4199,"longitude":-117.1219},
+		{"state":"NV","latitude":40.4199,"longitude":-117.1219},//
 		{"state":"NY","latitude":42.1497,"longitude":-74.9384},
 		{"state":"OH","latitude":40.3736,"longitude":-82.7755},
 		{"state":"OK","latitude":35.5376,"longitude":-96.9247},
 		{"state":"OR","latitude":46.5672,"longitude":-118.1269},
 		{"state":"PA","latitude":40.5773,"longitude":-77.2640},
-		{"state":"RI","latitude":41.6772,"longitude":-71.5101},
+		{"state":"RI","latitude":40.5772,"longitude":-70.5101},//
 		{"state":"SC","latitude":33.8191,"longitude":-80.9066},
 		{"state":"SD","latitude":44.2853,"longitude":-99.4632},
-		{"state":"TN","latitude":35.7449,"longitude":-86.7489},
+		{"state":"TN","latitude":34.7449,"longitude":-85.7489},//
 		{"state":"TX","latitude":31.1060,"longitude":-97.6475},
 		{"state":"UT","latitude":40.1135,"longitude":-111.8535},
 		{"state":"VA","latitude":37.7680,"longitude":-78.2057},
-		{"state":"VT","latitude":44.0407,"longitude":-72.7093},
+		{"state":"VT","latitude":45.0407,"longitude":-72.9093},//
 		{"state":"WA","latitude":50.3917,"longitude":-115.5708},
 		{"state":"WI","latitude":44.2563,"longitude":-89.6385},
 		{"state":"WV","latitude":38.4680,"longitude":-80.9696},
@@ -113,10 +100,13 @@
 		var botPad = 30;
 		var leftPad = 40;
 		var rightPad = 10;
-		var height = svg.attr("height")-topPad-botPad;
-		var width = svg.attr("width")-leftPad-rightPad;
-		var xScale = d3.scale.linear().domain([-125,-65]).range([0, width]);//longitude i.e. x
-		var yScale = d3.scale.linear().domain([28,50]).range([height, 0]);//latitude i.e. y
+		var height2 = svg.attr("height")-topPad-botPad;
+		var width2 = svg.attr("width")-leftPad-rightPad;
+		var xScale = d3.scale.linear().domain([-125,-65]).range([0, width2]);//longitude i.e. x
+		var yScale = d3.scale.linear().domain([28,50]).range([height2, 0]);//latitude i.e. y
+
+		var yScaleBar = d3.scale.linear().domain([-0.15,0,0.15]).range([30,0,30]);
+
 		//TODO: add Hawaii and Alaska
 		var statename=svg.append("g").attr("id","statename");
 		stateLocations.forEach(function (state) {
@@ -128,7 +118,432 @@
 			.attr("x",xScale(state.longitude)+leftPad)//x
 			.attr("y",yScale(state.latitude)+topPad);//y
 		});
-		statename.attr("transform","translate(40,55) scale(0.90) rotate(-4)");
+		 statename.attr("transform","translate(45,50) scale(0.90) rotate(-4)");
+		
+
+		d3.csv("inpatient.csv", function (error, rows) {
+		if (error) {console.log(error);}
+		
+		inpatient = d3.map(rows, function (states) { 
+			return Number(states.id); });
+		
+		statePath.selectAll("path")
+				.style("fill", function(states){
+					var stateData = inpatient.get(states.id);
+					if(!stateData) {return "#000"};
+					alldata.push(stateData);
+					return gapScale(Number(stateData.Gap2013))});
+
+		
+		var changeBar = svg.append("g").attr("id","changeBar");
+	
+	 	alldata.forEach(function(states){
+	 		changeBar.append("rect")
+	 		.attr("x", xScale(Number(states.longitude))+leftPad+30)
+	 		.attr("y",yScale(Number(states.latitude))+leftPad-4-yScaleBar(Number(states.TrendFrom12To11)))
+	 		.attr("width",10)
+	 		.attr("height",yScaleBar(Number(states.TrendFrom12To11)))
+	 		.style("fill",function(){
+	 			if(Number(states.TrendFrom13To12)<0){
+	 				console.log(states.State);
+	 				return "#000";
+	 			}
+	 			else return"#853c67";
+	 		})
+	 		.style("opacity",0.75);;
+	 	});
+
+	 	alldata.forEach(function(states){
+	 		changeBar.append("rect")
+	 		.attr("x", xScale(Number(states.longitude))+59)
+	 		.attr("y",yScale(Number(states.latitude))+leftPad-4-yScaleBar(Number(states.TrendFrom13To12)))
+	 		.attr("width",10)
+	 		.attr("height",yScaleBar(Number(states.TrendFrom13To12)))
+	 		.style("fill",function(){
+	 			if(Number(states.TrendFrom13To12)<0){
+	 				console.log(states.State);
+	 				return "#000";
+	 			}
+	 			else return "#b84250";
+	 		})
+	 		.style("opacity",0.75);
+	 	});
+
+	 	changeBar.attr("transform","translate(20,20) scale(0.90) rotate(-4)");
+
+	 	//key
+	 	var key =svg.append("g")
+	 	key.append("rect")
+	 	.attr("x",760)
+	 	.attr("y",320)
+	 	.attr("width",200)
+	 	.attr("height",120)
+	 	.style("fill","none")
+	 	.style("stroke","#ccc")	;
+
+	 	key.append("text")
+	 	.attr("x",860)
+	 	.attr("y",340)
+	 	.text("Key")
+	 	.attr("font-size",20)
+			.attr("text-anchor","middle")
+			.attr("alignment-baseline","middle");
+		
+
+		key.append("text")
+	 	.attr("x",860)
+	 	.attr("y",350)
+	 	.text("State color: gaps between ")
+	 	.attr("font-size",8)
+			.attr("text-anchor","middle")
+			.attr("alignment-baseline","middle");
+
+		key.append("text")
+	 	.attr("x",860)
+	 	.attr("y",360)
+	 	.text("Average Covered Charges and Average Total Payments")
+	 	.attr("font-size",9)
+			.attr("text-anchor","middle")
+			.attr("alignment-baseline","middle");
+
+
+
+		var gradient = svg.append("defs")
+  			.append("linearGradient")
+		    .attr("id", "gradient")
+		    .attr("x1", "0%")
+		    .attr("y1", "0%")
+		    .attr("x2", "100%")
+		    .attr("y2", "0%")
+		    .attr("spreadMethod", "pad");
+
+			gradient.append("stop")
+			    .attr("offset", "0%")
+			    .attr("stop-color", "#aac7c5")
+			    .attr("stop-opacity", 1);
+
+			gradient.append("stop")
+			    .attr("offset", "100%")
+			    .attr("stop-color", "#004e45")
+			    .attr("stop-opacity", 1);
+
+
+				key.append("rect")
+			 	.attr("x",800)
+			 	.attr("y",370)
+			 	.attr("width",100)
+			 	.attr("height",10)
+			 	.style("fill","url(#gradient)")
+			 	.style("stroke","#ccc")	;
+
+			 	key.append("text")
+	 			.attr("x",920)
+	 			.attr("y",376)
+	 			.text("$80000")
+	 			.attr("font-size",8)
+				.attr("text-anchor","middle")
+				.attr("alignment-baseline","middle");
+
+				key.append("text")
+	 			.attr("x",790)
+	 			.attr("y",376)
+	 			.text("$0")
+	 			.attr("font-size",8)
+				.attr("text-anchor","middle")
+				.attr("alignment-baseline","middle");
+
+				key.append("text")
+	 			.attr("x",760)
+	 			.attr("y",390)
+	 			.text("Increase rate:")
+	 			.attr("font-size",8)
+				.attr("text-anchor","left")
+				.attr("alignment-baseline","middle");
+
+				key.append("rect")
+			 	.attr("x",800)
+			 	.attr("y",395)
+			 	.attr("width",30)
+			 	.attr("height",10)
+			 	.style("fill","#b84250")
+			 	.style("stroke","#ccc");
+
+			 	key.append("text")
+	 			.attr("x",830)
+	 			.attr("y",400)
+	 			.text("15.0%")
+	 			.attr("font-size",8)
+				.attr("text-anchor","left")
+				.attr("alignment-baseline","middle");
+
+				key.append("text")
+	 			.attr("x",780)
+	 			.attr("y",400)
+	 			.text("0.0%")
+	 			.attr("font-size",8)
+				.attr("text-anchor","left")
+				.attr("alignment-baseline","middle");
+
+				key.append("rect")
+			 	.attr("x",900)
+			 	.attr("y",395)
+			 	.attr("width",30)
+			 	.attr("height",10)
+			 	.style("fill","#853c67")
+			 	.style("stroke","#ccc");
+
+			 	key.append("text")
+	 			.attr("x",930)
+	 			.attr("y",400)
+	 			.text("15.0%")
+	 			.attr("font-size",8)
+				.attr("text-anchor","left")
+				.attr("alignment-baseline","middle");
+
+				key.append("text")
+	 			.attr("x",880)
+	 			.attr("y",400)
+	 			.text("0.0%")
+	 			.attr("font-size",8)
+				.attr("text-anchor","left")
+				.attr("alignment-baseline","middle");
+
+				key.append("text")
+	 			.attr("x",780)
+	 			.attr("y",415)
+	 			.text("2011 to 2012")
+	 			.attr("font-size",8)
+				.attr("text-anchor","left")
+				.attr("alignment-baseline","middle");
+
+				key.append("text")
+	 			.attr("x",880)
+	 			.attr("y",415)
+	 			.text("2011 to 2012")
+	 			.attr("font-size",8)
+				.attr("text-anchor","left")
+				.attr("alignment-baseline","middle");
+
+			
+				
+				key.append("text")
+	 			.attr("x",760)
+	 			.attr("y",425)
+	 			.text("Decrease rate:")
+	 			.attr("font-size",8)
+				.attr("text-anchor","left")
+				.attr("alignment-baseline","middle");
+
+				key.append("rect")
+			 	.attr("x",800)
+			 	.attr("y",425)
+			 	.attr("width",30)
+			 	.attr("height",10)
+			 	.style("fill","#000")
+			 	.style("stroke","#ccc");
+
+			 	key.append("text")
+	 			.attr("x",830)
+	 			.attr("y",435)
+	 			.text("15.0%")
+	 			.attr("font-size",8)
+				.attr("text-anchor","left")
+				.attr("alignment-baseline","middle");
+
+				key.append("text")
+	 			.attr("x",780)
+	 			.attr("y",435)
+	 			.text("0.0%")
+	 			.attr("font-size",8)
+				.attr("text-anchor","left")
+				.attr("alignment-baseline","middle");
+		});
+		//statePath.selectAll("path").append("rect").attr("x",10).attr("y",10).attr("width",10).attr("height",10);
+
+	// 	alldata.forEach(function(state){
+	// 		changeBar.append("rect")
+	// 		.attr("x",xScale(state.longitude)+leftPad)//x
+	// 		.attr("y",yScale(state.latitude)+topPad)//y
+	// 		.attr("width",20)
+	// 		.attr("height",20)
+	// 		.style("fill","#b45a8f");
+	// 		console.log(state);
+	// 	})
+	 	
+
+	
 	</script>
+	<h1>From 2011 to 2012, Top 100 DRG gaps reduce number and average decrease amount by state</h1>
+	<div>Decrease Number</div>
+
+	<div id="decreaseNum"></div>
+	<script type="text/javascript">
+	var widthDe = 960,
+    	heightDe = 500;
+
+	var svgDe = d3.select("#decreaseNum").append("svg")
+				.attr("height", heightDe).attr("width", widthDe);
+
+	var decreaseNumScale = d3.scale.linear().domain([0, 90]).range([0, 50]);
+	var decreaseSumScale = d3.scale.linear().domain([-15000, 0]).range(["#913549", "#1f39a1"]);
+	
+	var statePathDe = svgDe.append("g");
+	
+	var inpatientDe;
+	var alldataDe = [];
+
+	d3.json("us.json", function(error, shapes) {
+	states = topojson.feature(shapes, shapes.objects.states).features;
+	
+	statePathDe.selectAll("path").data(states).enter()
+	.append("path")
+	.attr("d", path)
+	.style("fill", "#478d76")
+	.style("stroke", "#ccc");
+	});
+
+	d3.csv("DecreaseAnalysisByState.csv", function (error, rows) {
+		if (error) {console.log(error);}
+		
+		inpatientDe = d3.map(rows, function (states) { 
+			return Number(states.id); });
+		
+		statePathDe.selectAll("path")
+				.style("fill", function(states){
+					var stateData = inpatientDe.get(states.id);
+					if(!stateData) {return "#000"};
+					alldataDe.push(stateData);
+					return "#478d76"});
+
+		var decreaseNum = svgDe.append("g").attr("id","decreaseNum");
+	
+	 	alldataDe.forEach(function(states){
+	 		decreaseNum.append("circle")
+	 		.attr("cx", xScale(Number(states.longitude))+leftPad+30)
+	 		.attr("cy",yScale(Number(states.latitude))+leftPad-4)
+	 		.attr("r",decreaseNumScale(Number(states.decreaseNum13)))
+	 		.style("fill",decreaseSumScale(Number(states.DecreaseSum2013)))
+	 		.style("opacity",0.75);
+	 	});
+
+	 	alldataDe.forEach(function(states){
+	 		decreaseNum.append("text")
+	 		.attr("x", xScale(Number(states.longitude))+59)
+	 		.attr("y",yScale(Number(states.latitude))+leftPad-4)
+	 		.text(states.State)
+	 		.attr("font-size",10)
+			.attr("text-anchor","middle")
+			.attr("alignment-baseline","middle")
+	 		.style("opacity",0.75);
+	 	});
+
+	 	decreaseNum.attr("transform","translate(20,20) scale(0.90) rotate(-4)");
+
+
+});
+	var keyDe =svgDe.append("g")
+	 	keyDe.append("rect")
+	 	.attr("x",760)
+	 	.attr("y",320)
+	 	.attr("width",200)
+	 	.attr("height",120)
+	 	.style("fill","none")
+	 	.style("stroke","#ccc")	;
+
+	 	keyDe.append("text")
+	 	.attr("x",860)
+	 	.attr("y",340)
+	 	.text("Key")
+	 	.attr("font-size",20)
+			.attr("text-anchor","middle")
+			.attr("alignment-baseline","middle");
+		
+
+		keyDe.append("text")
+	 	.attr("x",860)
+	 	.attr("y",350)
+	 	.text("The size of circle: number of DRGs that")
+	 	.attr("font-size",8)
+			.attr("text-anchor","middle")
+			.attr("alignment-baseline","middle");
+
+		keyDe.append("text")
+	 	.attr("x",860)
+	 	.attr("y",360)
+	 	.text("decrease the gap from 2011 to 2012")
+	 	.attr("font-size",9)
+			.attr("text-anchor","middle")
+			.attr("alignment-baseline","middle");
+
+
+
+		var gradient2 = svg.append("defs")
+  			.append("linearGradient")
+		    .attr("id", "gradient")
+		    .attr("x1", "0%")
+		    .attr("y1", "0%")
+		    .attr("x2", "100%")
+		    .attr("y2", "0%")
+		    .attr("spreadMethod", "pad");
+
+			gradient2.append("stop")
+			    .attr("offset", "0%")
+			    .attr("stop-color", "#1f39a1")
+			    .attr("stop-opacity", 1);
+
+			gradient2.append("stop")
+			    .attr("offset", "100%")
+			    .attr("stop-color", "#ff1100")
+			    .attr("stop-opacity", 1);
+
+
+			keyDe.append("rect")
+			 	.attr("x",800)
+			 	.attr("y",400)
+			 	.attr("width",100)
+			 	.attr("height",10)
+			 	.style("fill","url(#gradient)")
+			 	.style("stroke","#ccc")	;
+
+			 	keyDe.append("text")
+	 			.attr("x",920)
+	 			.attr("y",400)
+	 			.text("-15000")
+	 			.attr("font-size",8)
+				.attr("text-anchor","middle")
+				.attr("alignment-baseline","middle");
+
+				keyDe.append("text")
+	 			.attr("x",790)
+	 			.attr("y",400)
+	 			.text("0")
+	 			.attr("font-size",8)
+				.attr("text-anchor","middle")
+				.attr("alignment-baseline","middle");
+
+				keyDe.append("text")
+	 			.attr("x",760)
+	 			.attr("y",380)
+	 			.text("Color of the circle: ")
+	 			.attr("font-size",8)
+				.attr("text-anchor","left")
+				.attr("alignment-baseline","middle");
+
+
+			 	keyDe.append("text")
+	 			.attr("x",830)
+	 			.attr("y",390)
+	 			.text("average decrease amount by state")
+	 			.attr("font-size",8)
+				.attr("text-anchor","left")
+				.attr("alignment-baseline","middle");
+
+
+
+
+			
+			
+	</script>
+
 	</body>
 </html>
