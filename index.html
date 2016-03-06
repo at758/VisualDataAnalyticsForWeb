@@ -5,10 +5,22 @@
 	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 	<script src="http://d3js.org/topojson.v1.min.js"></script>
 	<style>
-	body { font-family: 'Roboto', sans-serif; background-color: rgb(39,40,34); color: white; } div { margin: 30px; }
-	h1 {font-family: 'Roboto', sans-serif; color: white;}
-	h3 { font-family: 'Roboto', sans-serif; color: white; font-size: 16}
-	svg { border: 1px solid white; fill: none;}
+	body { font-family: Lucida Grande, sans-serif; background-color: rgb(39,40,34); color: white; } div { margin: 30px; }
+	h1 {font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Geneva, Verdana, sans-serif;
+	font-size: 24px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 100;
+	line-height: 28.4px; color: white;
+	text-align: center;}
+	h3 { font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Geneva, Verdana, sans-serif;
+	font-size: 20px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 100;
+	line-height: 28.4px; color: white;
+	text-align: center;}
+	svg { border: none; fill: none;}
 	.axis path { fill: none; stroke:  #f8f8ff; stroke-opacity: 1;}
 	.axis line { stroke:  #f8f8ff; stroke-opacity: 1;}
 	.axis text { font-size: 0.5em; fill: #f8f8ff; opacity: 1;}
@@ -26,8 +38,9 @@
 	<h3>Project 1</h3>
 	<h3>Richard Quan (rq32), Akshay Tata(at758), YuanYuan Li(yl2577)</h3>
 	<h1>Average Cost per Hospital for Top 95 Diagnoses in the United States</h1>
-
-	<p id="p2output">
+	<br>
+	<br>
+	<p id="p2output" align = "center">
 	<script>
 
 		var svg2a = d3.select("#p2output").append("svg");
@@ -201,96 +214,122 @@
 });
 
 	</script>
-	</p>
+</p>
+<br>
 
+	<p>
+	<h1>Major Joint Replacement or Reattachment of Lower Extremity w/o MCC - Major complication</h1>
 
+	<h3> Percentage Change in hospital charges from 2011 to 2013 </h3>
 
-	<!-- Start new svg for Maggie's idea -->
+	<div id="state" align = "center"></div>
+	<script type="text/javascript">
+	var width = 960, height = 500;
 
+	var svg = d3.select("#state").append("svg")
+				.attr("height", height).attr("width", width);
 
-	<p id="p3output">	
-	<script>
+	var projection = d3.geo.albersUsa();
+	var path = d3.geo.path().projection(projection);
+	var states;
+	var inpatient;
+	var stateChangeDic = {} //This is a state change Dictionary
+	var statePath = svg.append("g");
+	var digitScale = d3.scale.category20();
+	var gapScale = d3.scale.linear().domain([0, 51000]).range(["#008000", "#FF0000"]);
 
-		var dataSVG = d3.select("#p3output").append("svg");
-		dataSVG.attr("height",600).attr("width",600);
+	var changeScale = d3.scale.linear().domain([-8,0, 24.50]).range(["#008000", "#ffffff","#FF0000"]);
 
-		
-		var topPadM = 10;
-		var botPadM = 10;
-		var leftPadM = 10;
-		var rightPadM = 10;
-		var heightM = dataSVG.attr("height")-topPadM-botPadM;
-		var widthM = dataSVG.attr("width")-leftPadM-rightPadM;
-		var yScaleM = d3.scale.linear().domain([-12,12]).range([heightM, 0]);
-		var xScaleM = d3.scale.linear().domain([-14,14]).range([0, widthM]);
-	
-		var yAxisPos = (widthM/2) + leftPadM
-		var yAxisM = d3.svg.axis().scale(yScaleM).orient("left").tickFormat(d3.format("s"));
-		dataSVG.append("g").attr("class", "axis")
-		.attr("transform", "translate("+ yAxisPos +","+topPadM+")")
-		.call(yAxisM);
+	var alldata = [];
 
-		 dataSVG.append("text")
-			.text("Rate Change - 2011 to 2012")
-			.attr("font-size",10)
-			.attr("text-anchor","middle")
-			.attr("alignment-baseline","middle")
-			.attr("fill","#f8f8ff")
-			.attr("x", widthM - 150 )//x
-			.attr("y", heightM/2 + 40);//y
-
-		 dataSVG.append("text")
-			.text("Rate Change - 2012 to 2013")
-			.attr("font-size",10)
-			.attr("text-anchor","middle")
-			.attr("alignment-baseline","middle")
-			.attr("fill","#f8f8ff")
-			.attr("x", widthM - 350 )//x
-			.attr("y", heightM/2 - 145);//y
+	d3.json("us.json", function(error, shapes) {
+	states = topojson.feature(shapes, shapes.objects.states).features;
+	statePath.selectAll("path").data(states).enter()
+	.append("path")
+	.attr("d", path)
+	.style("fill", function (states) { return changeScale(stateChangeDic[states.id]); })
+	.attr("opacity","0.6")
+	.style("stroke", "none")
+	.style("stroke-width", "1");
+	});
 	
 
-		var xAxisPos = (heightM/2) + topPadM
-		var xAxisM = d3.svg.axis().scale(xScaleM).orient("bottom").tickFormat(d3.format("s"));
-		dataSVG.append("g").attr("class", "axis")
-		.attr("transform", "translate("+ topPadM +","+ xAxisPos+")")
-		.call(xAxisM);
+	
+	
+	var stateLocations = [
+		{"state":"AK","latitude":61.3850,"longitude":-152.2683},
 
-		dataSVG.append("circle")
-				.attr("cx", xScaleM(12) + 10)
-				.attr("cy", yScaleM(3) + 10)
-				.attr("r", 5)
-				.attr("fill", "white")
-				.attr("fill-opacity", "0.6");
+		{"state":"AL","latitude":32.7990,"longitude":-86.8073},
+		{"state":"AR","latitude":33.9513,"longitude":-92.3809},//
+		{"state":"AZ","latitude":34.7712,"longitude":-115.3877},
+		{"state":"CA","latitude":36.1700,"longitude":-119.7462},
+		{"state":"CO","latitude":39.0646,"longitude":-105.3272},
+		{"state":"CT","latitude":41.5834,"longitude":-72.7622},
+		{"state":"DE","latitude":38.3498,"longitude":-73.1148},//
+		{"state":"FL","latitude":27.8333,"longitude":-81.7170},
+		{"state":"GA","latitude":32.9866,"longitude":-83.6487},
+
+		{"state":"HI","latitude":21.1098,"longitude":-157.5311},
+
+		{"state":"IA","latitude":42.0046,"longitude":-93.2140},
+		{"state":"ID","latitude":44.2394,"longitude":-114.5103},
+		{"state":"IL","latitude":40.3363,"longitude":-89.0022},
+		{"state":"IN","latitude":39.8647,"longitude":-86.2604},
+		{"state":"KS","latitude":38.5111,"longitude":-96.8005},
+		{"state":"KY","latitude":36.6690,"longitude":-84.6514},//
+		{"state":"LA","latitude":30.1801,"longitude":-92.8749},//
+		{"state":"MA","latitude":42.1373,"longitude":-69.5314},//
+		{"state":"MD","latitude":38.0724,"longitude":-74.7902},//
+		{"state":"ME","latitude":44.6074,"longitude":-69.3977},
+		{"state":"MI","latitude":43.3504,"longitude":-84.5603},
+		{"state":"MN","latitude":45.7326,"longitude":-93.9196},
+		{"state":"MO","latitude":38.4623,"longitude":-92.3020},
+		{"state":"MS","latitude":32.7673,"longitude":-89.6812},
+		{"state":"MT","latitude":46.9048,"longitude":-110.3261},
+		{"state":"NC","latitude":34.8411,"longitude":-77.8431},//
+		{"state":"ND","latitude":47.5362,"longitude":-99.7930},
+		{"state":"NE","latitude":41.1289,"longitude":-98.2883},
+		{"state":"NH","latitude":43.4108,"longitude":-71.5653},
+		{"state":"NJ","latitude":40.3140,"longitude":-74.5089},
+		{"state":"NM","latitude":34.8375,"longitude":-106.2371},
+		{"state":"NV","latitude":40.4199,"longitude":-117.1219},//
+		{"state":"NY","latitude":42.1497,"longitude":-74.9384},
+		{"state":"OH","latitude":40.3736,"longitude":-82.7755},
+		{"state":"OK","latitude":35.5376,"longitude":-96.9247},
+		{"state":"OR","latitude":46.5672,"longitude":-118.1269},
+		{"state":"PA","latitude":40.5773,"longitude":-77.2640},
+		{"state":"RI","latitude":40.5772,"longitude":-70.5101},//
+		{"state":"SC","latitude":33.8191,"longitude":-80.9066},
+		{"state":"SD","latitude":44.2853,"longitude":-99.4632},
+		{"state":"TN","latitude":34.7449,"longitude":-85.7489},//
+		{"state":"TX","latitude":31.1060,"longitude":-97.6475},
+		{"state":"UT","latitude":40.1135,"longitude":-111.8535},
+		{"state":"VA","latitude":37.7680,"longitude":-78.2057},
+		{"state":"VT","latitude":45.0407,"longitude":-72.9093},//
+		{"state":"WA","latitude":50.3917,"longitude":-115.5708},
+		{"state":"WI","latitude":44.2563,"longitude":-89.6385},
+		{"state":"WV","latitude":38.4680,"longitude":-80.9696},
+		{"state":"WY","latitude":42.7475,"longitude":-107.2085}];
 
 		var rowsExcel;
-		//Getting data from CSV
-		d3.csv("MData.csv", function (error, rows) {
+
+		d3.csv("inpatient.csv", function (error, rows) {
 		if (error) {console.log(error);}
 
 		rowsExcel = rows;
 
-		rowsExcel.forEach(function(drgInfo)
+		rowsExcel.forEach(function(stateRow)
 		{
-			
-				dataSVG.append("circle")
-				.attr("cx", xScaleM(drgInfo.inc2012) + leftPadM)
-				.attr("cy", yScaleM(drgInfo.inc2013) + topPadM)
-				.attr("r", 5)
-				.attr("fill", drgInfo.color)
-				.attr("fill-opacity", "0.6");
-
-
+			stateChangeDic[stateRow.id] = stateRow.Change;
 		});
-
+	 
 		});
+	 	
 
-       
-      
-		
-
+	
 	</script>
+	
 	</p>
-
 
 </body>
 </html>
