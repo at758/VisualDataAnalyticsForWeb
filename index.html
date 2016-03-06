@@ -1,14 +1,14 @@
 <html>
 <head>
 	<title>Richard Quan (NetID: rq32)</title>
-	<link href='https://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 	<script src="http://d3js.org/topojson.v1.min.js"></script>
 	<style>
-	body { font-family: 'PT Sans', sans-serif; background-color: rgb(39,40,34); } div { margin: 30px; }
-	h1 {font-family: 'PT Sans', sans-serif; color: white;}
-	h3 { font-family: 'PT Sans', sans-serif; color: white; font-size: 16}
-	svg { border: none; fill: black;}
+	body { font-family: 'Roboto', sans-serif; background-color: rgb(39,40,34); color: white; } div { margin: 30px; }
+	h1 {font-family: 'Roboto', sans-serif; color: white;}
+	h3 { font-family: 'Roboto', sans-serif; color: white; font-size: 16}
+	svg { border: 1px solid white; fill: none;}
 	.axis path { fill: none; stroke:  #f8f8ff; stroke-opacity: 1;}
 	.axis line { stroke:  #f8f8ff; stroke-opacity: 1;}
 	.axis text { font-size: 0.5em; fill: #f8f8ff; opacity: 1;}
@@ -25,13 +25,10 @@
 	<h3>CS/INFO 3300 / INFO 5100</h3>
 	<h3>Project 1</h3>
 	<h3>Richard Quan (rq32), Akshay Tata(at758), YuanYuan Li(yl2577)</h3>
-	<h1>Average Cost per Hospital for Top 100 Diagnoses in the United States</h1>
+	<h1>Average Cost per Hospital for Top 95 Diagnoses in the United States</h1>
 
 	<p id="p2output">
 	<script>
-
-		//TODO: old background color : rgb(39,40,34), old axis color: #B1FB17
-		//TODO: remove comments
 
 		var svg2a = d3.select("#p2output").append("svg");
 		svg2a.attr("height",500).attr("width",1000);
@@ -41,23 +38,7 @@
 		.attr("height","1000")
 		.attr("width", "1000")
 		.style("fill", "none");
-		//rgb(9, 52, 86)
 		
-		/*var str = '';
-		console.log('hello\n\n\n\n');
-		for(var i = 0; i < 96; i++) {
-			var Red = i % 4;
-			var Grn = (i / 4) % 4;
-			var Blu = (i / 16) % 4;
-
-			Red = Math.floor(Red * 255 / 3);
-			Grn = Math.floor(Grn * 255 / 3);
-			Blu = Math.floor(Blu * 255 / 3);
-			
-			str += 'rgb('+Red+','+Grn+','+Blu+')\n';
-		}
-		console.log(str);*/
-
 		var topPad = 10;
 		var botPad = 30;
 		var leftPad = 40;
@@ -66,9 +47,7 @@
 		var width = svg2a.attr("width")-leftPad-rightPad;
 		var xScale = d3.scale.linear().domain([10000,60000]).range([0, width]);
 		var yScale = d3.scale.linear().domain([10000,125000]).range([height, 0]);
-
-		//10000
-		//125000	
+	
 		var radScale = d3.scale.linear().domain([18250, 58000]).range([20, 35]);
 		var opacityScale = d3.scale.linear().domain([9000, 150000]).range([0.2, 1]);
 
@@ -92,6 +71,8 @@
 		var xArr = [xScale(52062.94) - 690, xScale(59444.46) - 590, xScale(66698.56) - 490];
 
 		var hashObj = {};
+
+		var countNum = [-80, -40, 0, -10, -120, 20, -160, -130, -60, -100, -140, -70];
 
 		var dischargeText = "\"Total No. of discharges billed\"";
 
@@ -126,14 +107,14 @@
 			.attr("opacity", "0.5")
 			.attr("x2", xArr[2] + 130)
 			.attr("y2", 1000 - topPad - botPad);
-
+		
 		svg2a.append("text")
 			.text("2011")
 			.attr("font-size",15)
 			.attr("text-anchor","middle")
 			.attr("alignment-baseline","middle")
 			.attr("fill","#f8f8ff")
-			.attr("x", 150)//x
+			.attr("x", 120)//x
 			.attr("y", 500 - 10);//y
 
 		svg2a.append("text")
@@ -142,7 +123,7 @@
 			.attr("text-anchor","middle")
 			.attr("alignment-baseline","middle")
 			.attr("fill","#f8f8ff")
-			.attr("x", 390)//x
+			.attr("x", 360)//x
 			.attr("y", 500 - 10);//y
 
 		svg2a.append("text")
@@ -151,180 +132,165 @@
 			.attr("text-anchor","middle")
 			.attr("alignment-baseline","middle")
 			.attr("fill","#f8f8ff")
-			.attr("x", 630)//x
+			.attr("x", 600)//x
 			.attr("y", 500 - 10);//y
 
-		/*svg2a.append("text")
+		svg2a.append("text")
 			.text("Key")
 			.attr("font-size",15)
 			.attr("text-anchor","middle")
 			.attr("alignment-baseline","middle")
 			.attr("fill","#f8f8ff")
-			.attr("x", 880)//x
+			.attr("x", 850)//x
 			.attr("y", 500 - 10);//y
-
-		*/
-
-	/*	svg2a.append("circle")
-				.attr("cx", 880)
-				.attr("cy", 100)
-				.attr("r", 35)
-				.attr("fill", "#493D26")
-				.attr("fill-opacity", 1);
-
-		svg2a.append("text")
-			.text("Avg.Coverage")
-			.attr("font-size",11)
-			.attr("text-anchor","middle")
-			.attr("alignment-baseline","middle")
-			.attr("fill","#f8f8ff")
-			.attr("x", 880)//x
-			.attr("y", 105);//y
-
-		svg2a.append("text")
-			.text("Discharges")
-			.attr("font-size",11)
-			.attr("text-anchor","middle")
-			.attr("alignment-baseline","middle")
-			.attr("fill","#f8f8ff")
-			.attr("x", 880)//x
-			.attr("y", 90);//y
-			*/
-
-
-		/*	svg2a.append("text")
-			.text("Y-Axis")
-			.attr("font-size",13)
-			.attr("text-anchor","middle")
-			.attr("alignment-baseline","middle")
-			.attr("fill","#B1FB17")
-			.attr("x", 880)//x
-			.attr("y", 400);//y
-
-		svg2a.append("text")
-			.text("Total Payments in Dollars")
-			.attr("font-size",13)
-			.attr("text-anchor","middle")
-			.attr("alignment-baseline","middle")
-			.attr("fill","#B1FB17")
-			.attr("x", 880)//x
-			.attr("y", 420);//y
-
-		svg2a.append("text")
-			.text(avgtotText)
-			.attr("font-size",12)
-			.attr("text-anchor","middle")
-			.attr("alignment-baseline","middle")
-			.attr("fill","white")
-			.attr("x", 880)//x
-			.attr("y", 440);//y
-
-		svg2a.append("text")
-			.text("DRG Procedures")
-			.attr("font-size",13)
-			.attr("text-anchor","middle")
-			.attr("alignment-baseline","middle")
-			.attr("fill","#f8f8ff")
-			.attr("x", 880)//x
-			.attr("y", 550);//y
-			*/
-
-		/*svg2a.append("text")
-			.text("Discharges")
-			.attr("font-size",13)
-			.attr("text-anchor","middle")
-			.attr("alignment-baseline","middle")
-			.attr("fill","#f8f8ff")
-			.attr("x", 880)//x
-			.attr("y", 220);//y
-
-		svg2a.append("text")
-			.text(dischargeText)
-			.attr("font-size",11)
-			.attr("text-anchor","middle")
-			.attr("alignment-baseline","middle")
-			.attr("fill","white")
-			.attr("x", 880)//x
-			.attr("y", 240);//y
-
-		svg2a.append("text")
-			.text("Average Coverage in Dollars")
-			.attr("font-size",13)
-			.attr("text-anchor","middle")
-			.attr("alignment-baseline","middle")
-			.attr("fill","#f8f8ff")
-			.attr("x", 880)//x
-			.attr("y", 300);//y
-
-		svg2a.append("text")
-			.text(avgCharge)
-			.attr("font-size",12)
-			.attr("text-anchor","middle")
-			.attr("alignment-baseline","middle")
-			.attr("fill","white")
-			.attr("x", 880)//x
-			.attr("y", 320);//y
-			*/
-
-		/*svg2a.append("text")
-			.text("MCC = Major Complications")
-			.attr("font-size",12)
-			.attr("text-anchor","middle")
-			.attr("alignment-baseline","middle")
-			.attr("fill","#f8f8ff")
-			.attr("x", 880)//x
-			.attr("y", 480);//y
-
-		svg2a.append("text")
-			.text("CC = Complications")
-			.attr("font-size",12)
-			.attr("text-anchor","middle")
-			.attr("alignment-baseline","middle")
-			.attr("fill","#f8f8ff")
-			.attr("x", 880)//x
-			.attr("y", 500);//y*/
-				
-		//var yearPayName = ["year2011", "year2012", "year2013"];
-		var cntName = 580;
+		
 		var totWordCtr = 10;
-
+		//var ctr = 150
 		var drgData;
-
+		var drg2011;
+		var drg2012;
+		var drg2013;
 		d3.json("medicaldata.json", function(error, json) {
   			if (error) return console.warn(error);
   			drgData = json;
+
+  			//Sorting drgData based on year 2011
+  			drg2011 = drgData.sort(function(a, b) {
+  				 return parseFloat(a.year2011) - parseFloat(b.year2011);
+			});
+
+  			//Sorting drgData based on year 2012
+  			drg2012 = drgData.sort(function(a, b) {
+  				 return parseFloat(a.year2012) - parseFloat(b.year2012);
+			});
+
+			//Sorting drgData based on year 2012
+  			drg2013 = drgData.sort(function(a, b) {
+  				 return parseFloat(a.year2013) - parseFloat(b.year2013);
+			});
 		
-		drgData.forEach(function (drg) {
+		drg2011.forEach(function (drg) {
 
 				svg2a.append("circle")
-				.attr("cx", xArr[0]+leftPad)
+				.attr("cx", xArr[0]+leftPad + 65 + countNum[(Math.floor(Math.random() * (12)) + 1) - 1])
 				.attr("cy", yScale(drg.year2011)+topPad)
 				.attr("r", 5)
 				.attr("fill", drg.color)
 				.attr("fill-opacity", opacityScale(drg.year2011));
-				//.attr("transform", "translate("+tranCtr+", 0)");
+		});
 
+		drg2012.forEach(function (drg) {		
 				svg2a.append("circle")
-				.attr("cx", xArr[1]+leftPad)
+				.attr("cx", xArr[1]+leftPad + 30 + countNum[(Math.floor(Math.random() * (12)) + 1) - 1])
 				.attr("cy", yScale(drg.year2012)+topPad)
 				.attr("r", 5)
 				.attr("fill", drg.color)
 				.attr("fill-opacity", opacityScale(drg.year2012));
-				//.attr("transform", "translate("+tranCtr+", 0)");
+		});
+
+		drg2013.forEach(function (drg) {	
 
 				svg2a.append("circle")
-				.attr("cx", xArr[2]+leftPad)
+				.attr("cx", xArr[2]+leftPad+ 40 + countNum[(Math.floor(Math.random() * (12)) + 1) - 1])
 				.attr("cy", yScale(drg.year2013)+topPad)
 				.attr("r", 5)
 				.attr("fill", drg.color)
 				.attr("fill-opacity", opacityScale(drg.year2013));
-				//.attr("transform", "translate("+tranCtr+", 0)");
-			
-			});
+		});	
+		
 });
 
 	</script>
 	</p>
+
+
+
+	<!-- Start new svg for Maggie's idea -->
+
+
+	<p id="p3output">	
+	<script>
+
+		var dataSVG = d3.select("#p3output").append("svg");
+		dataSVG.attr("height",600).attr("width",600);
+
+		
+		var topPadM = 10;
+		var botPadM = 10;
+		var leftPadM = 10;
+		var rightPadM = 10;
+		var heightM = dataSVG.attr("height")-topPadM-botPadM;
+		var widthM = dataSVG.attr("width")-leftPadM-rightPadM;
+		var yScaleM = d3.scale.linear().domain([-12,12]).range([heightM, 0]);
+		var xScaleM = d3.scale.linear().domain([-14,14]).range([0, widthM]);
+	
+		var yAxisPos = (widthM/2) + leftPadM
+		var yAxisM = d3.svg.axis().scale(yScaleM).orient("left").tickFormat(d3.format("s"));
+		dataSVG.append("g").attr("class", "axis")
+		.attr("transform", "translate("+ yAxisPos +","+topPadM+")")
+		.call(yAxisM);
+
+		 dataSVG.append("text")
+			.text("Rate Change - 2011 to 2012")
+			.attr("font-size",10)
+			.attr("text-anchor","middle")
+			.attr("alignment-baseline","middle")
+			.attr("fill","#f8f8ff")
+			.attr("x", widthM - 150 )//x
+			.attr("y", heightM/2 + 40);//y
+
+		 dataSVG.append("text")
+			.text("Rate Change - 2012 to 2013")
+			.attr("font-size",10)
+			.attr("text-anchor","middle")
+			.attr("alignment-baseline","middle")
+			.attr("fill","#f8f8ff")
+			.attr("x", widthM - 350 )//x
+			.attr("y", heightM/2 - 145);//y
+	
+
+		var xAxisPos = (heightM/2) + topPadM
+		var xAxisM = d3.svg.axis().scale(xScaleM).orient("bottom").tickFormat(d3.format("s"));
+		dataSVG.append("g").attr("class", "axis")
+		.attr("transform", "translate("+ topPadM +","+ xAxisPos+")")
+		.call(xAxisM);
+
+		dataSVG.append("circle")
+				.attr("cx", xScaleM(12) + 10)
+				.attr("cy", yScaleM(3) + 10)
+				.attr("r", 5)
+				.attr("fill", "white")
+				.attr("fill-opacity", "0.6");
+
+		var rowsExcel;
+		//Getting data from CSV
+		d3.csv("MData.csv", function (error, rows) {
+		if (error) {console.log(error);}
+
+		rowsExcel = rows;
+
+		rowsExcel.forEach(function(drgInfo)
+		{
+			
+				dataSVG.append("circle")
+				.attr("cx", xScaleM(drgInfo.inc2012) + leftPadM)
+				.attr("cy", yScaleM(drgInfo.inc2013) + topPadM)
+				.attr("r", 5)
+				.attr("fill", drgInfo.color)
+				.attr("fill-opacity", "0.6");
+
+
+		});
+
+		});
+
+       
+      
+		
+
+	</script>
+	</p>
+
 
 </body>
 </html>
