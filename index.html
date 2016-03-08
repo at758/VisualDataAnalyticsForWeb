@@ -284,7 +284,7 @@
 
 	var projection = d3.geo.albersUsa();
 	var path = d3.geo.path().projection(projection);
-	var states;
+	var states1;
 	var inpatient;
 	var stateChangeDic = {"CA" : 1} //This is a state change Dictionary
 	var statePath = svg.append("g");
@@ -311,8 +311,8 @@
 		});
 
 	d3.json("us.json", function(error, shapes) {
-	states = topojson.feature(shapes, shapes.objects.states).features;
-	statePath.selectAll("path").data(states).enter()
+	states1 = topojson.feature(shapes, shapes.objects.states).features;
+	statePath.selectAll("path").data(states1).enter()
 	.append("path")
 	.attr("d", path)
 	.style("fill", function (states) { return changeScale(stateChangeDic[states.id]); })
