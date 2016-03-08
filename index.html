@@ -1,16 +1,19 @@
 <html>
+<meta charset="utf-8"/>
 <head>
 	<title>Richard Quan (NetID: rq32)</title>
-	<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Raleway:100' rel='stylesheet' type='text/css'>
 	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 	<script src="http://d3js.org/topojson.v1.min.js"></script>
+	<script type="text/javascript" src="hashset.js"></script>
+	<script type="text/javascript" src="hashtable.js"></script>
 	<style>
 	body { font-family: Lucida Grande, sans-serif; background-color: rgb(39,40,34); color: white; } div { margin: 30px; }
 	h1 {font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Geneva, Verdana, sans-serif;
 	font-size: 24px;
 	font-style: normal;
 	font-variant: normal;
-	font-weight: 100;
+	font-weight: 200;
 	line-height: 28.4px; color: white;
 	text-align: center;}
 	h3 { font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Geneva, Verdana, sans-serif;
@@ -29,6 +32,8 @@
 	text {fill-opacity : 1;}
 	circle {fill-opacity : 0.8;}
 	line {opacity : 1;}
+
+	.statesinline {font-family: 'Raleway', sans-serif;}
 }
 	
 	</style>
@@ -37,14 +42,14 @@
 	<h3>CS/INFO 3300 / INFO 5100</h3>
 	<h3>Project 1</h3>
 	<h3>Richard Quan (rq32), Akshay Tata(at758), YuanYuan Li(yl2577)</h3>
-	<h1>Average Cost per Hospital for Top 95 Diagnoses in the United States</h1>
+	<h1>Average Cost per Hospital for Top 12 Most Common Diagnoses in the United States</h1>
 	<br>
 	<br>
 	<p id="p2output" align = "center">
 	<script>
 
 		var svg2a = d3.select("#p2output").append("svg");
-		svg2a.attr("height",500).attr("width",1000);
+		svg2a.attr("height",500).attr("width",1200);
 
 
 		svg2a.append("rect")
@@ -59,11 +64,31 @@
 		var height = svg2a.attr("height")-topPad-botPad;
 		var width = svg2a.attr("width")-leftPad-rightPad;
 		var xScale = d3.scale.linear().domain([10000,60000]).range([0, width]);
-		var yScale = d3.scale.linear().domain([10000,125000]).range([height, 0]);
+		var yScale = d3.scale.linear().domain([10000,40000]).range([height, 0]);
 	
 		var radScale = d3.scale.linear().domain([18250, 58000]).range([20, 35]);
 		var opacityScale = d3.scale.linear().domain([9000, 150000]).range([0.2, 1]);
 
+
+		var top12Diag =	["470 - MAJOR JOINT REPLACEMENT OR REATTACHMENT OF LOWER EXTREMITY W/O MCC",
+		"871 - SEPTICEMIA OR SEVERE SEPSIS W/O MV 96+ HOURS W MCC",
+		"392 - ESOPHAGITIS, GASTROENT & MISC DIGEST DISORDERS W/O MCC",
+		"292 - HEART FAILURE & SHOCK W CC",
+		"690 - KIDNEY & URINARY TRACT INFECTIONS W/O MCC",
+		"291 - HEART FAILURE & SHOCK W MCC",
+		"194 - SIMPLE PNEUMONIA & PLEURISY W CC",
+		"683 - RENAL FAILURE W CC",
+		"190 - CHRONIC OBSTRUCTIVE PULMONARY DISEASE W MCC",
+		"603 - CELLULITIS W/O MCC",
+		"378 - G.I. HEMORRHAGE W CC",
+		"191 - CHRONIC OBSTRUCTIVE PULMONARY DISEASE W CC"];
+
+		var top12DiagHashSet = new HashSet();
+
+		for(var i = 0; i < 12; i++)
+		{
+			top12DiagHashSet.add(top12Diag[i]);	
+		}
 
 
 
@@ -96,29 +121,29 @@
 		svg2a.append("line")
 			.attr("stroke", "white")
 			.attr("stroke-width", "1")
-			.attr("x1", xArr[1] - 100)
+			.attr("x1", xArr[1] - 300)
 			.attr("y1", topPad)
-			.attr("x2", xArr[1] - 100)
+			.attr("x2", xArr[1] - 300)
 			.attr("opacity", "0.5")
 			.attr("y2", 1000 - topPad - botPad);
 
 		svg2a.append("line")
 			.attr("stroke", "white")
 			.attr("stroke-width", "1")
-			.attr("x1", xArr[2] - 100)
+			.attr("x1", xArr[2] - 330)
 			.attr("y1", topPad)
 			.attr("opacity", "0.5")
-			.attr("x2", xArr[2] - 100)
+			.attr("x2", xArr[2] - 330)
 			.attr("y2", 1000 - topPad - botPad);
 
 
 		svg2a.append("line")
 			.attr("stroke", "white")
 			.attr("stroke-width", "1")
-			.attr("x1", xArr[2] + 130)
+			.attr("x1", xArr[2] - 80)
 			.attr("y1", topPad)
 			.attr("opacity", "0.5")
-			.attr("x2", xArr[2] + 130)
+			.attr("x2", xArr[2] - 80)
 			.attr("y2", 1000 - topPad - botPad);
 		
 		svg2a.append("text")
@@ -154,7 +179,7 @@
 			.attr("text-anchor","middle")
 			.attr("alignment-baseline","middle")
 			.attr("fill","#f8f8ff")
-			.attr("x", 850)//x
+			.attr("x", 960)//x
 			.attr("y", 500 - 10);//y
 		
 		var totWordCtr = 10;
@@ -163,6 +188,7 @@
 		var drg2011;
 		var drg2012;
 		var drg2013;
+		var keyCtr = 20;
 		d3.json("medicaldata.json", function(error, json) {
   			if (error) return console.warn(error);
   			drgData = json;
@@ -184,31 +210,58 @@
 		
 		drg2011.forEach(function (drg) {
 
+				if(top12DiagHashSet.contains(drg.nameDRG))
+				{
 				svg2a.append("circle")
-				.attr("cx", xArr[0]+leftPad + 65 + countNum[(Math.floor(Math.random() * (12)) + 1) - 1])
+				.attr("cx", xArr[0]+leftPad + countNum[(Math.floor(Math.random() * (12)) + 1) - 1] - 105)
 				.attr("cy", yScale(drg.year2011)+topPad)
-				.attr("r", 5)
+				.attr("r", 9)
 				.attr("fill", drg.color)
-				.attr("fill-opacity", opacityScale(drg.year2011));
+				.attr("fill-opacity", 1);
+
+				svg2a.append("circle")
+				.attr("cx", 750)
+				.attr("cy", keyCtr)
+				.attr("r", 9)
+				.attr("fill", drg.color)
+				.attr("fill-opacity", 1);
+
+				svg2a.append("text")
+				.attr("x", 770)
+				.attr("y", keyCtr + 4)
+				.text(drg.nameDRG)
+				.attr("font-size",10)
+				.attr("fill", "white")
+				.attr("fill-opacity", 1);
+
+				keyCtr = keyCtr + 40;
+			   }
 		});
 
-		drg2012.forEach(function (drg) {		
+		drg2012.forEach(function (drg) {	
+
+					if(top12DiagHashSet.contains(drg.nameDRG))
+				{
 				svg2a.append("circle")
-				.attr("cx", xArr[1]+leftPad + 30 + countNum[(Math.floor(Math.random() * (12)) + 1) - 1])
+				.attr("cx", xArr[1]+leftPad + countNum[(Math.floor(Math.random() * (12)) + 1) - 1] - 150)
 				.attr("cy", yScale(drg.year2012)+topPad)
-				.attr("r", 5)
+				.attr("r", 9)
 				.attr("fill", drg.color)
-				.attr("fill-opacity", opacityScale(drg.year2012));
+				.attr("fill-opacity", 1);
+				}
 		});
 
 		drg2013.forEach(function (drg) {	
 
+				if(top12DiagHashSet.contains(drg.nameDRG))
+				{
 				svg2a.append("circle")
-				.attr("cx", xArr[2]+leftPad+ 40 + countNum[(Math.floor(Math.random() * (12)) + 1) - 1])
+				.attr("cx", xArr[2]+leftPad+countNum[(Math.floor(Math.random() * (12)) + 1) - 1] - 190)
 				.attr("cy", yScale(drg.year2013)+topPad)
-				.attr("r", 5)
+				.attr("r", 9)
 				.attr("fill", drg.color)
-				.attr("fill-opacity", opacityScale(drg.year2013));
+				.attr("fill-opacity", 1);
+				}
 		});	
 		
 });
@@ -220,7 +273,7 @@
 	<p>
 	<h1>Major Joint Replacement or Reattachment of Lower Extremity w/o MCC - Major complication</h1>
 
-	<h3> Percentage Change in hospital charges from 2011 to 2013 </h3>
+	<h3> Percentage Change in hospital costs from 2011 - 2013 </h3>
 
 	<div id="state" align = "center"></div>
 	<script type="text/javascript">
@@ -238,7 +291,7 @@
 	var digitScale = d3.scale.category20();
 	var gapScale = d3.scale.linear().domain([0, 51000]).range(["#008000", "#FF0000"]);
 
-	var changeScale = d3.scale.linear().domain([-8,0, 24.50]).range(["#008000", "#ffffff","#FF0000"]);
+	var changeScale = d3.scale.linear().domain([-8,0, 24.50]).range(["#0080ff", "#ffffff","#FF0000"]);
 
 	var alldata = [];
 
@@ -248,68 +301,10 @@
 	.append("path")
 	.attr("d", path)
 	.style("fill", function (states) { return changeScale(stateChangeDic[states.id]); })
-	.attr("opacity","0.6")
+	.attr("opacity","0.8")
 	.style("stroke", "none")
 	.style("stroke-width", "1");
 	});
-	
-
-	
-	
-	var stateLocations = [
-		{"state":"AK","latitude":61.3850,"longitude":-152.2683},
-
-		{"state":"AL","latitude":32.7990,"longitude":-86.8073},
-		{"state":"AR","latitude":33.9513,"longitude":-92.3809},//
-		{"state":"AZ","latitude":34.7712,"longitude":-115.3877},
-		{"state":"CA","latitude":36.1700,"longitude":-119.7462},
-		{"state":"CO","latitude":39.0646,"longitude":-105.3272},
-		{"state":"CT","latitude":41.5834,"longitude":-72.7622},
-		{"state":"DE","latitude":38.3498,"longitude":-73.1148},//
-		{"state":"FL","latitude":27.8333,"longitude":-81.7170},
-		{"state":"GA","latitude":32.9866,"longitude":-83.6487},
-
-		{"state":"HI","latitude":21.1098,"longitude":-157.5311},
-
-		{"state":"IA","latitude":42.0046,"longitude":-93.2140},
-		{"state":"ID","latitude":44.2394,"longitude":-114.5103},
-		{"state":"IL","latitude":40.3363,"longitude":-89.0022},
-		{"state":"IN","latitude":39.8647,"longitude":-86.2604},
-		{"state":"KS","latitude":38.5111,"longitude":-96.8005},
-		{"state":"KY","latitude":36.6690,"longitude":-84.6514},//
-		{"state":"LA","latitude":30.1801,"longitude":-92.8749},//
-		{"state":"MA","latitude":42.1373,"longitude":-69.5314},//
-		{"state":"MD","latitude":38.0724,"longitude":-74.7902},//
-		{"state":"ME","latitude":44.6074,"longitude":-69.3977},
-		{"state":"MI","latitude":43.3504,"longitude":-84.5603},
-		{"state":"MN","latitude":45.7326,"longitude":-93.9196},
-		{"state":"MO","latitude":38.4623,"longitude":-92.3020},
-		{"state":"MS","latitude":32.7673,"longitude":-89.6812},
-		{"state":"MT","latitude":46.9048,"longitude":-110.3261},
-		{"state":"NC","latitude":34.8411,"longitude":-77.8431},//
-		{"state":"ND","latitude":47.5362,"longitude":-99.7930},
-		{"state":"NE","latitude":41.1289,"longitude":-98.2883},
-		{"state":"NH","latitude":43.4108,"longitude":-71.5653},
-		{"state":"NJ","latitude":40.3140,"longitude":-74.5089},
-		{"state":"NM","latitude":34.8375,"longitude":-106.2371},
-		{"state":"NV","latitude":40.4199,"longitude":-117.1219},//
-		{"state":"NY","latitude":42.1497,"longitude":-74.9384},
-		{"state":"OH","latitude":40.3736,"longitude":-82.7755},
-		{"state":"OK","latitude":35.5376,"longitude":-96.9247},
-		{"state":"OR","latitude":46.5672,"longitude":-118.1269},
-		{"state":"PA","latitude":40.5773,"longitude":-77.2640},
-		{"state":"RI","latitude":40.5772,"longitude":-70.5101},//
-		{"state":"SC","latitude":33.8191,"longitude":-80.9066},
-		{"state":"SD","latitude":44.2853,"longitude":-99.4632},
-		{"state":"TN","latitude":34.7449,"longitude":-85.7489},//
-		{"state":"TX","latitude":31.1060,"longitude":-97.6475},
-		{"state":"UT","latitude":40.1135,"longitude":-111.8535},
-		{"state":"VA","latitude":37.7680,"longitude":-78.2057},
-		{"state":"VT","latitude":45.0407,"longitude":-72.9093},//
-		{"state":"WA","latitude":50.3917,"longitude":-115.5708},
-		{"state":"WI","latitude":44.2563,"longitude":-89.6385},
-		{"state":"WV","latitude":38.4680,"longitude":-80.9696},
-		{"state":"WY","latitude":42.7475,"longitude":-107.2085}];
 
 		var rowsExcel;
 
@@ -325,10 +320,328 @@
 	 
 		});
 	 	
+	var gradient2 = svg.append("defs")
+  			.append("linearGradient")
+		    .attr("id", "gradient")
+		    .attr("x1", "0%")
+		    .attr("y1", "0%")
+		    .attr("x2", "100%")
+		    .attr("y2", "0%")
+		    .attr("spreadMethod", "pad");
 
+			gradient2.append("stop")
+			    .attr("offset", "0%")
+			    .attr("stop-color", "#0080ff")
+			    .attr("stop-opacity", 1);
+
+			gradient2.append("stop")
+			    .attr("offset", "100%")
+			    .attr("stop-color", "#FF0000")
+			    .attr("stop-opacity", 1);
+
+
+			svg.append("rect")
+			 	.attr("x",800)
+			 	.attr("y",400)
+			 	.attr("width",100)
+			 	.attr("height",10)
+			 	.style("fill","url(#gradient)")
+			 	.style("stroke","none")	;
+
+			 	svg.append("text")
+	 			.attr("x",920)
+	 			.attr("y",405)
+	 			.text("+25.9%")
+	 			.attr("font-size",10)
+				.attr("text-anchor","middle")
+				.attr("fill","white")
+				.attr("alignment-baseline","middle");
+
+				svg.append("text")
+	 			.attr("x",785)
+	 			.attr("y",405)
+	 			.attr("fill","white")
+	 			.text("-7%")
+	 			.attr("font-size",10)
+				.attr("text-anchor","middle")
+				.attr("alignment-baseline","middle");
 	
 	</script>
 	
+	</p>
+
+
+
+	<!-- third graph -->
+	<p align = "center">
+	<br>
+	<br>
+	</script>
+	<h1>Average cost reduction in top 95 DRG's and the number of the DRG's with reduced costs per state </h1>
+	<h3> 2011 - 2013 </h3>
+
+	<div id="decreaseNum" align = "center"></div>
+	<script type="text/javascript">
+	var widthDe = 960,
+    	heightDe = 500;
+
+	var svgDe = d3.select("#decreaseNum").append("svg")
+				.attr("height", heightDe).attr("width", widthDe);
+
+	var decreaseNumScale = d3.scale.linear().domain([0, 51]).range([0,50]);
+	var decreaseSumScale = d3.scale.linear().domain([-4200, 0]).range(["#0b4ccc", "#d7e4fd"]);
+	var xScaleMM = d3.scale.linear().domain([-125,-65]).range([0, widthDe]);//longitude i.e. x
+ 	var yScaleMM = d3.scale.linear().domain([28,50]).range([heightDe, 0]);//latitude i.e. y
+
+ 	
+	
+	var statePathDe = svgDe.append("g");
+	
+	var inpatientDe;
+	var alldataDe = [];
+
+
+	var stateDicCircle = {}; //Created dictionary for circle sizes and color
+
+	var names = {};
+	var itemstateDicCircle;
+	d3.json("us.json", function(error, shapes) {
+	states = topojson.feature(shapes, shapes.objects.states).features;
+	
+
+	states.forEach(function(st){
+
+		names[st.id] = st.id;
+		//console.log(st.id);
+	});
+
+	d3.csv("inpatient.csv", function (rows) {
+		
+		rows.forEach(function(stateColorSize){
+
+			if(names[stateColorSize.id])
+			{
+			var x = new Object();
+			x["decreaseSumAverage"] = stateColorSize.decreaseNum2;
+			x["decreaseSumAveragecolor"] = stateColorSize.decreaseSumAverage;
+			x["nameofstate"] = stateColorSize.State;
+			//arrstateObj.push(stateObj);
+			stateDicCircle[stateColorSize.id] = x;
+		   }
+		});
+
+	itemstateDicCircle = Object.keys(stateDicCircle).map(function(key) {
+    return [key, stateDicCircle[key]];
+	}); 
+
+	itemstateDicCircle.sort(function(a,b){
+		return parseInt(a[1]["decreaseSumAverage"]) - parseInt(b[1]["decreaseSumAverage"])
+	});
+
+	//itemstateDicCircle.forEach(function())
+
+	statePathDe.selectAll("path").data(states).enter()
+	.append("path")
+	.attr("d", path)
+	.style("fill", "white")
+	.attr("opacity","1")
+	.style("stroke", "white");
+	
+	var xCoord = {"DE" : 40, "RI" : 60, "VT" : -40, "NH" : -40, "HI":0,"CT":0};
+	var yCoord = {"HI": -30, "DE": 40, "MD" : -30, "CT": 40, "VT": -40, "NH" : -40, "FL": -10};
+	statePathDe.selectAll("text").data(states).enter()
+	.append("svg:text")
+	.attr("d", path)
+	.attr("opacity","0.9")
+	.style("stroke", function(d){
+		if(!isNaN(path.centroid(d)[0]))
+		{
+			if(xCoord[stateDicCircle[d.id]["nameofstate"]] !== undefined)
+			{	
+      			return "white";
+  			}
+  			
+  			return "black";
+  			
+ 		 }
+  	})
+	.attr("class","statesinline")
+	.text(function(d){if(stateDicCircle[d.id] !== undefined){return stateDicCircle[d.id]["nameofstate"];}})
+	.attr("font-size", "10")
+	.attr("x", function(d){
+		if(!isNaN(path.centroid(d)[0]))
+		{
+			if(xCoord[stateDicCircle[d.id]["nameofstate"]] !== undefined)
+			{	
+      			return path.centroid(d)[0] + xCoord[stateDicCircle[d.id]["nameofstate"]];
+  			}
+  			
+  				return path.centroid(d)[0];
+  			
+ 		 }
+  	})
+  	.attr("y", function(d){
+  		if(!isNaN(path.centroid(d)[1]))
+		{
+     
+			if(yCoord[stateDicCircle[d.id]["nameofstate"]] !== undefined)
+			{	
+      			return path.centroid(d)[1] + yCoord[stateDicCircle[d.id]["nameofstate"]];
+  			}
+  			
+  				return path.centroid(d)[1];
+  			
+  		}
+  	})
+  	.attr("text-anchor","middle")
+    .attr('fill', 'white');
+
+
+    statePathDe.selectAll("circle").data(states).enter()
+	.append("svg:circle")
+	.attr("d", path)
+	.attr("stroke", "none")
+	.attr("cx", function(d){
+		if(!isNaN(path.centroid(d)[0]))
+		{
+      
+			if(xCoord[stateDicCircle[d.id]["nameofstate"]] !== undefined)
+			{	
+      			return path.centroid(d)[0] + xCoord[stateDicCircle[d.id]["nameofstate"]];
+  			}
+  			
+  				return path.centroid(d)[0];
+  			
+ 		 
+  		}
+  	})
+	.attr("cy", function(d){
+		if(!isNaN(path.centroid(d)[1]))
+		{
+      
+			if(yCoord[stateDicCircle[d.id]["nameofstate"]] !== undefined)
+			{	
+      			return path.centroid(d)[1] + yCoord[stateDicCircle[d.id]["nameofstate"]];
+  			}
+  			
+  				return path.centroid(d)[1];
+  			
+ 		 
+  }
+  	})
+	.attr("r", function(d)
+	{
+		if(stateDicCircle[d.id] !== undefined)
+		{
+		//console.log(stateDicCircle[d.id]["decreaseSumAverage"]);
+		var obj = stateDicCircle[d.id];
+		return decreaseNumScale(obj["decreaseSumAverage"]);
+	    }
+	})
+	.style("fill",function(d)
+	{
+		if(stateDicCircle[d.id] !== undefined)
+		{
+		//console.log(stateDicCircle[d.id]["decreaseSumAverage"]);
+		var obj = stateDicCircle[d.id];
+		return decreaseSumScale(obj["decreaseSumAveragecolor"]);
+	    }
+	} )
+	.style("opacity",1);
+	
+	});
+
+});
+	
+
+
+	var keyDe =svgDe.append("g")
+
+	 	keyDe.append("text")
+	 	.attr("x",860)
+	 	.attr("y",340)
+	 	.text("Key")
+	 	.attr("font-size",20)
+			.attr("text-anchor","middle")
+			.attr("alignment-baseline","middle");
+		
+
+		var gradient3 = svg.append("defs")
+  			.append("linearGradient")
+		    .attr("id", "gradient1")
+		    .attr("x1", "0%")
+		    .attr("y1", "0%")
+		    .attr("x2", "100%")
+		    .attr("y2", "0%")
+		    .attr("spreadMethod", "pad");
+
+			gradient3.append("stop")
+			    .attr("offset", "0%")
+			    .attr("stop-color", "#0b4ccc")
+			    .attr("stop-opacity", 1);
+
+			gradient3.append("stop")
+			    .attr("offset", "100%")
+			    .attr("stop-color", "#d7e4fd")
+			    .attr("stop-opacity", 1);
+
+
+			keyDe.append("rect")
+			 	.attr("x",800)
+			 	.attr("y",400)
+			 	.attr("width",100)
+			 	.attr("height",10)
+			 	.style("fill","url(#gradient1)")
+			 	.style("stroke","none")	;
+
+			 	keyDe.append("text")
+	 			.attr("x",780)
+	 			.attr("y",405)
+	 			.text("-4000$")
+	 			.attr("class","statesinline")
+	 			.style("stroke","white")
+	 			.attr("font-size",10)
+				.attr("text-anchor","middle")
+				.attr("alignment-baseline","middle");
+
+				keyDe.append("text")
+	 			.attr("x",910)
+	 			.attr("y",405)
+	 			.text("0$")
+	 			.attr("class","statesinline" )
+	 			.style("stroke","white")
+	 			.attr("font-size",10)
+				.attr("text-anchor","middle")
+				.attr("alignment-baseline","middle");
+
+				
+				keyDe.append("text")
+	 			.attr("x",850)
+	 			.attr("y",435)
+	 			.text("Size of the Circle : Number of DRG's")
+	 			.attr("class","statesinline" )
+	 			.style("stroke","white")
+	 			.attr("font-size",10)
+				.attr("text-anchor","middle")
+				.attr("alignment-baseline","middle");
+
+			 	keyDe.append("text")
+	 			.attr("x",830)
+	 			.attr("y",390)
+	 			.text("average decrease amount by state")
+	 			.attr("font-size",8)
+				.attr("text-anchor","left")
+				.attr("alignment-baseline","middle");
+
+			
+
+
+			
+			
+	</script>
+
+
+
 	</p>
 
 </body>
