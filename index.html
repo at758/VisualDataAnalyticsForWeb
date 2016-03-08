@@ -1,123 +1,164 @@
 <html>
 <meta charset="utf-8"/>
 <head>
-	<title>Richard Quan (NetID: rq32)</title>
-	<link href='https://fonts.googleapis.com/css?family=Raleway:100' rel='stylesheet' type='text/css'>
-	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-	<script src="http://d3js.org/topojson.v1.min.js"></script>
-	<script type="text/javascript" src="hashset.js"></script>
-	<script type="text/javascript" src="hashtable.js"></script>
-	<style>
-	body { font-family: Lucida Grande, sans-serif; background-color: rgb(39,40,34); color: white; } div { margin: 30px; }
-	h1 {font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Geneva, Verdana, sans-serif;
-	font-size: 24px;
-	font-style: normal;
-	font-variant: normal;
-	font-weight: 200;
-	line-height: 28.4px; color: white;
-	text-align: center;}
-	h3 { font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Geneva, Verdana, sans-serif;
-	font-size: 20px;
-	font-style: normal;
-	font-variant: normal;
-	font-weight: 100;
-	line-height: 28.4px; color: white;
-	text-align: center;}
-	svg { border: none; fill: none;}
-	.axis path { fill: none; stroke:  #f8f8ff; stroke-opacity: 1;}
-	.axis line { stroke:  #f8f8ff; stroke-opacity: 1;}
-	.axis text { font-size: 0.5em; fill: #f8f8ff; opacity: 1;}
-	.noTextAxis text { font-size: 0em; }  
-	.logAxis text { font-size: 0.3em; } 
-	text {fill-opacity : 1;}
-	circle {fill-opacity : 0.8;}
-	line {opacity : 1;}
+	<title>Health care data 2011 - 2013 for Top 95 DRG's</title>
 
-	.statesinline {font-family: 'Raleway', sans-serif;}
-}
+	<link href='https://fonts.googleapis.com/css?family=Raleway:100' rel='stylesheet' type='text/css'>
+
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+	<script src="http://d3js.org/topojson.v1.min.js"></script>
+	
+	<!-- hashset.js is a custom data structure directly taken for link -	https://github.com/timdown/jshashtable. -->
+	<script type="text/javascript" src="hashset.js"></script>	
+	
+	<!-- hashtable.js is a custom data structure directly taken from link -	https://github.com/timdown/jshashtable. -->
+	<script type="text/javascript" src="hashtable.js"></script>
+
+	<!--CSS Styling begins -->
+	<style>
+
+	body { 
+			font-family: Lucida Grande, sans-serif; background-color: rgb(39,40,34); color: white; } div { margin: 30px; 
+		}
+
+	h1 {
+			font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Geneva, Verdana, sans-serif;
+			font-size: 24px;
+			font-style: normal;
+			font-variant: normal;
+			font-weight: 200;
+			line-height: 28.4px; color: white;
+			text-align: center;
+		}
+
+	h3 { 
+			font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Geneva, Verdana, sans-serif;
+			font-size: 20px;
+			font-style: normal;
+			font-variant: normal;
+			font-weight: 100;
+			line-height: 28.4px; color: white;
+			text-align: center;
+	   }
+
+	svg { 
+			border: none; fill: none;
+		}
+
+	.axis path { 
+					fill: none; stroke:  #f8f8ff; stroke-opacity: 1;
+			   }
+
+	.axis line { 
+					stroke:  #f8f8ff; stroke-opacity: 1;
+			   }
+
+	.axis text { 
+					font-size: 0.5em; fill: #f8f8ff; opacity: 1;
+			   }
+	.noTextAxis text { 
+						font-size: 0em;
+					 }  
+	.logAxis text { 
+					font-size: 0.3em; 
+				  } 
+	text {
+			fill-opacity : 1;
+		 }
+
+	circle {
+			fill-opacity : 0.8;
+		}
+
+	line {
+			opacity : 1;
+		}
+
+	.statesinline {
+					font-family: 'Raleway', sans-serif;
+				}
+	
 	
 	</style>
+	<!-- CSS Styling ends -->
+
 </head>
 <body>
+
 	<h3>CS/INFO 3300 / INFO 5100</h3>
-	<h3>Project 1</h3>
-	<h3>Richard Quan (rq32), Akshay Tata(at758), YuanYuan Li(yl2577)</h3>
-	<h1>Average Cost per Hospital for Top 12 Most Common Diagnoses in the United States</h1>
+	<h1>Project 1</h1>
+	<h1>Analyzing health care information for top 95 Diagnostic Related Groups(DRGs) across United States from the period of 2011 to 2013</h1>
+	<div align = "center" font-size = "5">Richard Quan (rq32), Akshay Tata(at758), YuanYuan Li(yl2577)</div>
 	<br>
+	<h3>Average Cost per Hospital for Top 10 Most Common Diagnoses in the United States</h3>
 	<br>
-	<p id="p2output" align = "center">
+
+	<p id="p1output" align = "center">
 	<script>
 
-		var svg2a = d3.select("#p2output").append("svg");
+		//SVG elements for the the bubbles in the first visualization that compares data in 2011, 2012 and 2013
+		var svg2a = d3.select("#p1output").append("svg");
 		svg2a.attr("height",500).attr("width",1200);
 
-
-		svg2a.append("rect")
-		.attr("height","1000")
-		.attr("width", "1000")
-		.style("fill", "none");
-		
+		//Constraints for the SVG element
 		var topPad = 10;
 		var botPad = 30;
 		var leftPad = 40;
 		var rightPad = 10;
 		var height = svg2a.attr("height")-topPad-botPad;
 		var width = svg2a.attr("width")-leftPad-rightPad;
+
+		//For position on the x-axis, not pertaining to any medical data whatsoever. Used only for positions.
 		var xScale = d3.scale.linear().domain([10000,60000]).range([0, width]);
+		//This contains 
 		var yScale = d3.scale.linear().domain([10000,40000]).range([height, 0]);
-	
-		var radScale = d3.scale.linear().domain([18250, 58000]).range([20, 35]);
-		var opacityScale = d3.scale.linear().domain([9000, 150000]).range([0.2, 1]);
 
-
+		//An array of top 12 comman diagnosis across United States for the years in account
 		var top12Diag =	["470 - MAJOR JOINT REPLACEMENT OR REATTACHMENT OF LOWER EXTREMITY W/O MCC",
 		"871 - SEPTICEMIA OR SEVERE SEPSIS W/O MV 96+ HOURS W MCC",
 		"392 - ESOPHAGITIS, GASTROENT & MISC DIGEST DISORDERS W/O MCC",
 		"292 - HEART FAILURE & SHOCK W CC",
 		"690 - KIDNEY & URINARY TRACT INFECTIONS W/O MCC",
-		"291 - HEART FAILURE & SHOCK W MCC",
 		"194 - SIMPLE PNEUMONIA & PLEURISY W CC",
 		"683 - RENAL FAILURE W CC",
 		"190 - CHRONIC OBSTRUCTIVE PULMONARY DISEASE W MCC",
-		"603 - CELLULITIS W/O MCC",
 		"378 - G.I. HEMORRHAGE W CC",
 		"191 - CHRONIC OBSTRUCTIVE PULMONARY DISEASE W CC"];
 
+		//A new custom HashSet data-structure created based on the github link mentioned above near the title
 		var top12DiagHashSet = new HashSet();
 
-		for(var i = 0; i < 12; i++)
+		//Populating the HashSet for the top 12 diagnostic
+		for(var i = 0; i < 10; i++)
 		{
 			top12DiagHashSet.add(top12Diag[i]);	
 		}
 
-
-
-		/*var xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickFormat(d3.format("s"));
-		svg2a.append("g").attr("class", "axis")
-		.attr("transform", "translate("+leftPad+","+(height+topPad)+")")
-		.call(xAxis);*/
-
+		//Adding attributes to the y-axis
 		var yAxis = d3.svg.axis().scale(yScale).orient("left").tickFormat(d3.format("s"));
 		svg2a.append("g").attr("class", "axis")
 		.attr("transform", "translate("+leftPad+","+topPad+")")
 		.call(yAxis);
 
-		var yearCnt = 0;
-		var yearCntGreen = 0;
-		var ctrVar = 0;
+		//Stores json data
+		var drgData;
+		//Sorts data by year 2011
+		var drg2011;
+		//Sorts data by year 2012
+		var drg2012;
+		//Sorts data by year 2013
+		var drg2013;
+		//Counter used marking circles in the key
+		var keyCtr = 16;
 
+		//An array for positions of lines and circles in the first visualization
 		var xArr = [xScale(52062.94) - 690, xScale(59444.46) - 590, xScale(66698.56) - 490];
 
-		var hashObj = {};
+		//An array for random placement of circles to avoid overlapping
+		var countNum = [-80, -40, 0, -10, -120, 20, -160, -130, -60, -100];
 
-		var countNum = [-80, -40, 0, -10, -120, 20, -160, -130, -60, -100, -140, -70];
-
-		var dischargeText = "\"Total No. of discharges billed\"";
-
-		var avgtotText = "\"Avg. Medicare Paym. to the Provider\"";
-
-		var avgCharge = "\"Avg. charge, provider billed to Medicare\"";
-
+		//Line 1 after 2011
 		svg2a.append("line")
 			.attr("stroke", "white")
 			.attr("stroke-width", "1")
@@ -127,6 +168,7 @@
 			.attr("opacity", "0.5")
 			.attr("y2", 1000 - topPad - botPad);
 
+		//Line 2 after 2012
 		svg2a.append("line")
 			.attr("stroke", "white")
 			.attr("stroke-width", "1")
@@ -136,7 +178,7 @@
 			.attr("x2", xArr[2] - 330)
 			.attr("y2", 1000 - topPad - botPad);
 
-
+		//Line 3 after 2013
 		svg2a.append("line")
 			.attr("stroke", "white")
 			.attr("stroke-width", "1")
@@ -145,50 +187,49 @@
 			.attr("opacity", "0.5")
 			.attr("x2", xArr[2] - 80)
 			.attr("y2", 1000 - topPad - botPad);
-		
+
+		//Text for 2011
 		svg2a.append("text")
 			.text("2011")
 			.attr("font-size",15)
 			.attr("text-anchor","middle")
 			.attr("alignment-baseline","middle")
 			.attr("fill","#f8f8ff")
-			.attr("x", 120)//x
-			.attr("y", 500 - 10);//y
+			.attr("x", 120)
+			.attr("y", 500 - 10);
 
+		//Text for 2012
 		svg2a.append("text")
 			.text("2012")
 			.attr("font-size",15)
 			.attr("text-anchor","middle")
 			.attr("alignment-baseline","middle")
 			.attr("fill","#f8f8ff")
-			.attr("x", 360)//x
-			.attr("y", 500 - 10);//y
+			.attr("x", 360)
+			.attr("y", 500 - 10);
 
+		//Text for 2013
 		svg2a.append("text")
 			.text("2013")
 			.attr("font-size",15)
 			.attr("text-anchor","middle")
 			.attr("alignment-baseline","middle")
 			.attr("fill","#f8f8ff")
-			.attr("x", 600)//x
-			.attr("y", 500 - 10);//y
+			.attr("x", 600)
+			.attr("y", 500 - 10);
 
+		//Text for Key
 		svg2a.append("text")
 			.text("Key")
 			.attr("font-size",15)
 			.attr("text-anchor","middle")
 			.attr("alignment-baseline","middle")
 			.attr("fill","#f8f8ff")
-			.attr("x", 960)//x
-			.attr("y", 500 - 10);//y
+			.attr("x", 960)
+			.attr("y", 500 - 10);
 		
-		var totWordCtr = 10;
-		//var ctr = 150
-		var drgData;
-		var drg2011;
-		var drg2012;
-		var drg2013;
-		var keyCtr = 20;
+		
+		//Getting data from medicaldata.json
 		d3.json("medicaldata.json", function(error, json) {
   			if (error) return console.warn(error);
   			drgData = json;
@@ -207,18 +248,21 @@
   			drg2013 = drgData.sort(function(a, b) {
   				 return parseFloat(a.year2013) - parseFloat(b.year2013);
 			});
+
 		
 		drg2011.forEach(function (drg) {
 
 				if(top12DiagHashSet.contains(drg.nameDRG))
 				{
 				svg2a.append("circle")
-				.attr("cx", xArr[0]+leftPad + countNum[(Math.floor(Math.random() * (12)) + 1) - 1] - 105)
+				//Randomly choosing x positions fot the circles
+				.attr("cx", xArr[0]+leftPad + countNum[(Math.floor(Math.random() * (10)) + 1) - 1] - 105)
 				.attr("cy", yScale(drg.year2011)+topPad)
 				.attr("r", 9)
 				.attr("fill", drg.color)
 				.attr("fill-opacity", 1);
 
+				//Circles for the key
 				svg2a.append("circle")
 				.attr("cx", 750)
 				.attr("cy", keyCtr)
@@ -226,6 +270,7 @@
 				.attr("fill", drg.color)
 				.attr("fill-opacity", 1);
 
+				//Circles for the text in the key
 				svg2a.append("text")
 				.attr("x", 770)
 				.attr("y", keyCtr + 4)
@@ -234,16 +279,18 @@
 				.attr("fill", "white")
 				.attr("fill-opacity", 1);
 
-				keyCtr = keyCtr + 40;
+				//Assigning y positions 40 pixels apart
+				keyCtr = keyCtr + 50;
 			   }
 		});
 
+		//Same as for year 2011
 		drg2012.forEach(function (drg) {	
 
 					if(top12DiagHashSet.contains(drg.nameDRG))
 				{
 				svg2a.append("circle")
-				.attr("cx", xArr[1]+leftPad + countNum[(Math.floor(Math.random() * (12)) + 1) - 1] - 150)
+				.attr("cx", xArr[1]+leftPad + countNum[(Math.floor(Math.random() * (10)) + 1) - 1] - 150)
 				.attr("cy", yScale(drg.year2012)+topPad)
 				.attr("r", 9)
 				.attr("fill", drg.color)
@@ -251,12 +298,13 @@
 				}
 		});
 
+		//Same as for year 2013
 		drg2013.forEach(function (drg) {	
 
 				if(top12DiagHashSet.contains(drg.nameDRG))
 				{
 				svg2a.append("circle")
-				.attr("cx", xArr[2]+leftPad+countNum[(Math.floor(Math.random() * (12)) + 1) - 1] - 190)
+				.attr("cx", xArr[2]+leftPad+countNum[(Math.floor(Math.random() * (10)) + 1) - 1] - 190)
 				.attr("cy", yScale(drg.year2013)+topPad)
 				.attr("r", 9)
 				.attr("fill", drg.color)
@@ -264,41 +312,51 @@
 				}
 		});	
 		
-});
+	});
 
 	</script>
-</p>
-<br>
+	</p>
+	<br>
+
+	<!-- Code for second graph starts -->
 
 	<p>
-	<h1>Major Joint Replacement or Reattachment of Lower Extremity w/o MCC - Major complication</h1>
+	<h3>Major Joint Replacement or Reattachment of Lower Extremity w/o MCC - Major complication</h3>
 
 	<h3> Percentage Change in hospital costs from 2011 - 2013 </h3>
 
-	<div id="state" align = "center"></div>
+	<div id="usmap1" align = "center"></div>
+
 	<script type="text/javascript">
 	var width = 960, height = 500;
 
-	var svg = d3.select("#state").append("svg")
+	//SVG Element for Map 1
+	var svg = d3.select("#usmap1").append("svg")
 				.attr("height", height).attr("width", width);
 
+	//Used sample alersUsa projection from d3
 	var projection = d3.geo.albersUsa();
-	var path = d3.geo.path().projection(projection);
-	var states1;
-	var inpatient;
-	var stateChangeDic = {"CA" : 1} //This is a state change Dictionary
-	var statePath = svg.append("g");
-	var digitScale = d3.scale.category20();
-	var gapScale = d3.scale.linear().domain([0, 51000]).range(["#008000", "#FF0000"]);
 
+	//Variable for storing a path for the projection
+	var path = d3.geo.path().projection(projection);
+
+	//Variable for getting States from us.json
+	var states1;
+
+	//Dictionary with state names and rate changes
+	var stateChangeDic = {"CA" : 1};
+
+	//Appending group to the variable statePath
+	var statePath = svg.append("g");
+
+	//This scale is used to map Rate of Change of costs from the year 2011 to 2013
 	var changeScale = d3.scale.linear().domain([-8,0, 24.50]).range(["#0080ff", "#ffffff","#FF0000"]);
 
-	var alldata = [];
+	//Contains rows from inpatient.csv
+	var rowsExcel;
 
-
-		var rowsExcel;
-
-		d3.csv("inpatient.csv", function (error, rows) {
+	//Taking data from inpatient.csv and populating the dictionary with positive or negative rate changes
+	d3.csv("inpatient.csv", function (error, rows) {
 		if (error) {console.log(error);}
 
 		rowsExcel = rows;
@@ -308,22 +366,22 @@
 			stateChangeDic[stateRow.id] = stateRow.Change;
 		});
 	 
-		});
+	});
 
+	//Filling the map with appropriate gradient colors and data
 	d3.json("us.json", function(error, shapes) {
-	states1 = topojson.feature(shapes, shapes.objects.states).features;
-	statePath.selectAll("path").data(states1).enter()
-	.append("path")
-	.attr("d", path)
-	.style("fill", function (states) { return changeScale(stateChangeDic[states.id]); })
-	.attr("opacity","0.8")
-	.style("stroke", "none")
-	.style("stroke-width", "1");
-	
-
-		
+		states1 = topojson.feature(shapes, shapes.objects.states).features;
+		statePath.selectAll("path").data(states1).enter()
+		.append("path")
+		.attr("d", path)
+		.style("fill", function (states) { return changeScale(stateChangeDic[states.id]); })
+		.attr("opacity","0.8")
+		.style("stroke", "none")
+		.style("stroke-width", "1");
 	}); 	
-	var gradient2 = svg.append("defs")
+
+	//Gradient for the key bar
+	var gradient1 = svg.append("defs")
   			.append("linearGradient")
 		    .attr("id", "gradient")
 		    .attr("x1", "0%")
@@ -332,18 +390,26 @@
 		    .attr("y2", "0%")
 		    .attr("spreadMethod", "pad");
 
-			gradient2.append("stop")
-			    .attr("offset", "0%")
-			    .attr("stop-color", "#0080ff")
-			    .attr("stop-opacity", 1);
+    //Gradient stops at blue
+	gradient1.append("stop")
+			.attr("offset", "0%")
+			.attr("stop-color", "#0080ff")
+			.attr("stop-opacity", 1);
 
-			gradient2.append("stop")
-			    .attr("offset", "100%")
-			    .attr("stop-color", "#FF0000")
-			    .attr("stop-opacity", 1);
+	//Gradient stops at white
+	gradient1.append("stop")
+			.attr("offset", "25%")
+			.attr("stop-color", "#FFFFFF")
+			.attr("stop-opacity", 1);
 
+	//Gradient stop a red
+	gradient1.append("stop")
+	   	.attr("offset", "100%")
+	    .attr("stop-color", "#FF0000")
+		.attr("stop-opacity", 1);
 
-			svg.append("rect")
+	//For rectange in the Key		
+	svg.append("rect")
 			 	.attr("x",800)
 			 	.attr("y",400)
 			 	.attr("width",100)
@@ -351,7 +417,26 @@
 			 	.style("fill","url(#gradient)")
 			 	.style("stroke","none")	;
 
-			 	svg.append("text")
+	//Line element
+	svg.append("line")
+			.attr("stroke", "white")
+			.attr("stroke-width", "1")
+			.attr("x1", 830)
+			.attr("y1", 390)
+			.attr("opacity", "0.5")
+			.attr("x2", 830)
+			.attr("y2", 420);
+
+	svg.append("text")
+	 			.attr("x",830)
+	 			.attr("y",427)
+	 			.text("0%")
+	 			.attr("font-size",10)
+				.attr("text-anchor","middle")
+				.attr("fill","white")
+				.attr("alignment-baseline","middle");
+
+	svg.append("text")
 	 			.attr("x",920)
 	 			.attr("y",405)
 	 			.text("+25.9%")
@@ -360,7 +445,7 @@
 				.attr("fill","white")
 				.attr("alignment-baseline","middle");
 
-				svg.append("text")
+	svg.append("text")
 	 			.attr("x",785)
 	 			.attr("y",405)
 	 			.attr("fill","white")
@@ -375,7 +460,7 @@
 
 
 
-	<!-- third graph -->
+	<!-- Code for third graph starts -->
 	
 	<p align = "center">
 	<br>
@@ -384,46 +469,50 @@
 	<h1>Average cost reduction in top 95 DRG's and the number of the DRG's with reduced costs per state </h1>
 	<h3> 2011 - 2013 </h3>
 
-	<div id="decreaseNum" align = "center"></div>
+	<div id="map3" align = "center"></div>
 	<script type="text/javascript">
+
+	//Width and height 
 	var widthDe = 960,
     	heightDe = 500;
 
-	var svgDe = d3.select("#decreaseNum").append("svg")
+    //SVG Element for visualization 3
+	var svgDe = d3.select("#map3").append("svg")
 				.attr("height", heightDe).attr("width", widthDe);
 
+	//Scale for the size of the circle and the number of DRG reduced
 	var decreaseNumScale = d3.scale.linear().domain([0, 51]).range([0,50]);
+
+	//Scale for the amount of reduction described by the color
 	var decreaseSumScale = d3.scale.linear().domain([-4200, 0]).range(["#0b4ccc", "#d7e4fd"]);
-	var xScaleMM = d3.scale.linear().domain([-125,-65]).range([0, widthDe]);//longitude i.e. x
- 	var yScaleMM = d3.scale.linear().domain([28,50]).range([heightDe, 0]);//latitude i.e. y
-
- 	
 	
+	//Adding groups to path
 	var statePathDe = svgDe.append("g");
-	
-	var inpatientDe;
-	var alldataDe = [];
 
-	var x;
-	var stateDicCircle = {"SA": x}; //Created dictionary for circle sizes and color
+	//Data to store drg information which contain value from the constructor defined below
+	var drjObjData;
 
-	function xdata (a, b, c) {
-    this.decreaseSumAverage = a;
-    this.decreaseSumAveragecolor = b;
-    this.nameofstate = c;
+	//Created dictionary for circle sizes and color
+	var stateDicCircle = {"SA": drjObjData}; 
+
+	//Constructor to assign values to name, decreasevalue and decrease number
+	function xdata (decreaseSumAverage, decreaseSumAveragecolor, nameofstate) {
+    this.decreaseSumAverage = decreaseSumAverage;
+    this.decreaseSumAveragecolor = decreaseSumAveragecolor;
+    this.nameofstate = nameofstate;
 	};
 
+	//Dictionary tht contains id's
 	var names = {};
-	var itemstateDicCircle;
 	d3.json("us.json", function(error, shapes) {
 	states = topojson.feature(shapes, shapes.objects.states).features;
 	
-
+	//Populating id's
 	states.forEach(function(st){
 
 		names[st.id] = st.id;
-		//console.log(st.id);
 	});
+
 
 	d3.csv("inpatient.csv", function (rows) {
 		
@@ -431,17 +520,14 @@
 
 			if(names[stateColorSize.id])
 			{
-			x = new xdata(stateColorSize.decreaseNum2, stateColorSize.decreaseSumAverage,stateColorSize.State);
-			//x.__proto__ = Object.prototype;
-			/*x["decreaseSumAverage"] = stateColorSize.decreaseNum2;
-			x["decreaseSumAveragecolor"] = stateColorSize.decreaseSumAverage;
-			x["nameofstate"] = stateColorSize.State;*/
-			//arrstateObj.push(stateObj);
-			stateDicCircle[stateColorSize.id] = x;
+			// Creating a new object for every state id
+			drjObjData = new xdata(stateColorSize.decreaseNum2, stateColorSize.decreaseSumAverage,stateColorSize.State);
+			//Assigning it to the dictionary to compute values
+			stateDicCircle[stateColorSize.id] = drjObjData;
 		   }
 		});
 
-	//itemstateDicCircle.forEach(function())
+	
 
 	statePathDe.selectAll("path").data(states).enter()
 	.append("path")
@@ -450,8 +536,11 @@
 	.attr("opacity","1")
 	.style("stroke", "white");
 	
+	//X and Y coordinates to avoid overlapping for circles and states.
 	var xCoord = {"DE" : 40, "RI" : 60, "VT" : -40, "NH" : -40, "HI":0,"CT":0};
 	var yCoord = {"HI": -30, "DE": 40, "MD" : -30, "CT": 40, "VT": -40, "NH" : -40, "FL": -10};
+
+	//Mapping text for states
 	statePathDe.selectAll("text").data(states).enter()
 	.append("svg:text")
 	.attr("d", path)
@@ -459,6 +548,7 @@
 	.style("stroke", function(d){
 		if(!isNaN(path.centroid(d)[0]))
 		{
+			//Checking for undefined - Awarness by StackOverflow
 			if(xCoord[stateDicCircle[d.id]["nameofstate"]] !== undefined)
 			{	
       			return "white";
@@ -489,6 +579,7 @@
      
 			if(yCoord[stateDicCircle[d.id]["nameofstate"]] !== undefined)
 			{	
+				//Changing positions of overlapping states
       			return path.centroid(d)[1] + yCoord[stateDicCircle[d.id]["nameofstate"]];
   			}
   			
@@ -499,7 +590,7 @@
   	.attr("text-anchor","middle")
     .attr('fill', 'white');
 
-
+    //Mapping text for circles
     statePathDe.selectAll("circle").data(states).enter()
 	.append("svg:circle")
 	.attr("d", path)
@@ -536,7 +627,6 @@
 	{
 		if(stateDicCircle[d.id] !== undefined)
 		{
-		//console.log(stateDicCircle[d.id]["decreaseSumAverage"]);
 		var obj = stateDicCircle[d.id];
 		return decreaseNumScale(obj["decreaseSumAverage"]);
 	    }
@@ -545,7 +635,7 @@
 	{
 		if(stateDicCircle[d.id] !== undefined)
 		{
-		//console.log(stateDicCircle[d.id]["decreaseSumAverage"]);
+		
 		var obj = stateDicCircle[d.id];
 		return decreaseSumScale(obj["decreaseSumAveragecolor"]);
 	    }
@@ -557,7 +647,7 @@
 });
 	
 
-
+	//Appending Key, gradiant and information
 	var keyDe =svgDe.append("g")
 
 	 	keyDe.append("text")
@@ -565,8 +655,8 @@
 	 	.attr("y",340)
 	 	.text("Key")
 	 	.attr("font-size",20)
-			.attr("text-anchor","middle")
-			.attr("alignment-baseline","middle");
+		.attr("text-anchor","middle")
+		.attr("alignment-baseline","middle");
 		
 
 		var gradient3 = svg.append("defs")
@@ -578,18 +668,18 @@
 		    .attr("y2", "0%")
 		    .attr("spreadMethod", "pad");
 
-			gradient3.append("stop")
+		gradient3.append("stop")
 			    .attr("offset", "0%")
 			    .attr("stop-color", "#0b4ccc")
 			    .attr("stop-opacity", 1);
 
-			gradient3.append("stop")
+		gradient3.append("stop")
 			    .attr("offset", "100%")
 			    .attr("stop-color", "#d7e4fd")
 			    .attr("stop-opacity", 1);
 
 
-			keyDe.append("rect")
+		keyDe.append("rect")
 			 	.attr("x",800)
 			 	.attr("y",400)
 			 	.attr("width",100)
@@ -597,7 +687,7 @@
 			 	.style("fill","url(#gradient1)")
 			 	.style("stroke","none")	;
 
-			 	keyDe.append("text")
+		keyDe.append("text")
 	 			.attr("x",780)
 	 			.attr("y",405)
 	 			.text("-4000$")
@@ -607,7 +697,7 @@
 				.attr("text-anchor","middle")
 				.attr("alignment-baseline","middle");
 
-				keyDe.append("text")
+		keyDe.append("text")
 	 			.attr("x",910)
 	 			.attr("y",405)
 	 			.text("0$")
@@ -618,7 +708,7 @@
 				.attr("alignment-baseline","middle");
 
 				
-				keyDe.append("text")
+		keyDe.append("text")
 	 			.attr("x",850)
 	 			.attr("y",435)
 	 			.text("Size of the Circle : Number of DRG's")
@@ -628,7 +718,7 @@
 				.attr("text-anchor","middle")
 				.attr("alignment-baseline","middle");
 
-			 	keyDe.append("text")
+		keyDe.append("text")
 	 			.attr("x",830)
 	 			.attr("y",390)
 	 			.text("average decrease amount by state")
