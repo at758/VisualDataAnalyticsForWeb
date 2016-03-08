@@ -286,7 +286,7 @@
 	var path = d3.geo.path().projection(projection);
 	var states;
 	var inpatient;
-	var stateChangeDic = {} //This is a state change Dictionary
+	var stateChangeDic = {"CA" : 1} //This is a state change Dictionary
 	var statePath = svg.append("g");
 	var digitScale = d3.scale.category20();
 	var gapScale = d3.scale.linear().domain([0, 51000]).range(["#008000", "#FF0000"]);
@@ -295,16 +295,6 @@
 
 	var alldata = [];
 
-	d3.json("us.json", function(error, shapes) {
-	states = topojson.feature(shapes, shapes.objects.states).features;
-	statePath.selectAll("path").data(states).enter()
-	.append("path")
-	.attr("d", path)
-	.style("fill", function (states) { return changeScale(stateChangeDic[states.id]); })
-	.attr("opacity","0.8")
-	.style("stroke", "none")
-	.style("stroke-width", "1");
-	});
 
 		var rowsExcel;
 
@@ -319,7 +309,20 @@
 		});
 	 
 		});
-	 	
+
+	d3.json("us.json", function(error, shapes) {
+	states = topojson.feature(shapes, shapes.objects.states).features;
+	statePath.selectAll("path").data(states).enter()
+	.append("path")
+	.attr("d", path)
+	.style("fill", function (states) { return changeScale(stateChangeDic[states.id]); })
+	.attr("opacity","0.8")
+	.style("stroke", "none")
+	.style("stroke-width", "1");
+	
+
+		
+	}); 	
 	var gradient2 = svg.append("defs")
   			.append("linearGradient")
 		    .attr("id", "gradient")
@@ -373,6 +376,7 @@
 
 
 	<!-- third graph -->
+	
 	<p align = "center">
 	<br>
 	<br>
@@ -400,8 +404,14 @@
 	var inpatientDe;
 	var alldataDe = [];
 
+	var x;
+	var stateDicCircle = {"SA": x}; //Created dictionary for circle sizes and color
 
-	var stateDicCircle = {}; //Created dictionary for circle sizes and color
+	function xdata (a, b, c) {
+    this.decreaseSumAverage = a;
+    this.decreaseSumAveragecolor = b;
+    this.nameofstate = c;
+	};
 
 	var names = {};
 	var itemstateDicCircle;
@@ -421,22 +431,15 @@
 
 			if(names[stateColorSize.id])
 			{
-			var x = new Object();
-			x["decreaseSumAverage"] = stateColorSize.decreaseNum2;
+			x = new xdata(stateColorSize.decreaseNum2, stateColorSize.decreaseSumAverage,stateColorSize.State);
+			//x.__proto__ = Object.prototype;
+			/*x["decreaseSumAverage"] = stateColorSize.decreaseNum2;
 			x["decreaseSumAveragecolor"] = stateColorSize.decreaseSumAverage;
-			x["nameofstate"] = stateColorSize.State;
+			x["nameofstate"] = stateColorSize.State;*/
 			//arrstateObj.push(stateObj);
 			stateDicCircle[stateColorSize.id] = x;
 		   }
 		});
-
-	itemstateDicCircle = Object.keys(stateDicCircle).map(function(key) {
-    return [key, stateDicCircle[key]];
-	}); 
-
-	itemstateDicCircle.sort(function(a,b){
-		return parseInt(a[1]["decreaseSumAverage"]) - parseInt(b[1]["decreaseSumAverage"])
-	});
 
 	//itemstateDicCircle.forEach(function())
 
