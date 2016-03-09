@@ -1,7 +1,7 @@
 <html>
 <meta charset="utf-8"/>
 <head>
-	<title>Health care data 2011 - 2013 for Top 95 DRG's</title>
+	<title>Healthcare Data 2011-2013 for Top DRGs</title>
 
 	<link href='https://fonts.googleapis.com/css?family=Raleway:100' rel='stylesheet' type='text/css'>
 
@@ -88,10 +88,10 @@
 
 	<h3>CS/INFO 3300 / INFO 5100</h3>
 	<h1>Project 1</h1>
-	<h1>Analyzing health care information for top 95 Diagnostic Related Groups(DRGs) across United States from the period of 2011 to 2013</h1>
+	<h1>Analysis of Hospital Costs for Top Diagnostic Related Groups(DRGs) in the United States 2011-2013</h1>
 	<div align = "center" font-size = "5">Richard Quan (rq32), Akshay Tata(at758), YuanYuan Li(yl2577)</div>
 	<br>
-	<h3>Average Cost per Hospital for Top 10 Most Common Diagnoses in the United States</h3>
+	<h3>Average Cost per Hospital for Top 10 Most Common Diagnoses in the U.S.</h3>
 	<br>
 
 	<p id="p1output" align = "center">
@@ -321,9 +321,9 @@
 	<!-- Code for second graph starts -->
 
 	<p>
-	<h3>Major Joint Replacement or Reattachment of Lower Extremity w/o MCC - Major complication</h3>
+	<h3>Average Cost Change per Hospital for Number 1 DRG from 2011 - 2013</h3>
 
-	<h3> Percentage Change in hospital costs from 2011 - 2013 </h3>
+	<h3>Major Joint Replacement or Reattachment of Lower Extremity without Major complication</h3>
 
 	<div id="usmap1" align = "center"></div>
 
@@ -437,6 +437,24 @@
 				.attr("alignment-baseline","middle");
 
 	svg.append("text")
+	 			.attr("x",850)
+	 			.attr("y",350)
+	 			.text("KEY")
+	 			.attr("font-size",12)
+				.attr("text-anchor","middle")
+				.attr("fill","white")
+				.attr("alignment-baseline","middle");
+
+	svg.append("text")
+	 			.attr("x",850)
+	 			.attr("y",380)
+	 			.text("Average Cost Change")
+	 			.attr("font-size",10)
+				.attr("text-anchor","middle")
+				.attr("fill","white")
+				.attr("alignment-baseline","middle");
+
+	svg.append("text")
 	 			.attr("x",920)
 	 			.attr("y",405)
 	 			.text("+25.9%")
@@ -466,8 +484,8 @@
 	<br>
 	<br>
 	</script>
-	<h1>Average cost reduction in top 95 DRG's and the number of the DRG's with reduced costs per state </h1>
-	<h3> 2011 - 2013 </h3>
+	<h3>Number of Top 95 DRGs with Cost Reduction and</h1>
+	<h3>Average Reduction Intensity per State 2011 - 2013 </h3>
 
 	<div id="map3" align = "center"></div>
 	<script type="text/javascript">
@@ -707,11 +725,10 @@
 				.attr("text-anchor","middle")
 				.attr("alignment-baseline","middle");
 
-				
 		keyDe.append("text")
 	 			.attr("x",850)
-	 			.attr("y",435)
-	 			.text("Size of the Circle : Number of DRG's")
+	 			.attr("y",390)
+	 			.text("Average Cost Reduction")
 	 			.attr("class","statesinline" )
 	 			.style("stroke","white")
 	 			.attr("font-size",10)
@@ -719,16 +736,60 @@
 				.attr("alignment-baseline","middle");
 
 		keyDe.append("text")
-	 			.attr("x",830)
-	 			.attr("y",390)
-	 			.text("average decrease amount by state")
-	 			.attr("font-size",8)
-				.attr("text-anchor","left")
+	 			.attr("x",850)
+	 			.attr("y",365)
+	 			.text("KEY")
+	 			.attr("class","statesinline" )
+	 			.style("stroke","white")
+	 			.attr("font-size",12)
+				.attr("text-anchor","middle")
 				.attr("alignment-baseline","middle");
 
-			
+		keyDe.append("circle")
+	 			.attr("cx",850)
+	 			.attr("cy",455)
+	 			.attr("r",35)
+	 			.attr("fill","rgb(100, 142, 225)");
 
+		keyDe.append("text")
+	 			.attr("x",850)
+	 			.attr("y",440)
+	 			.text("Circle Area:")
+	 			.attr("class","statesinline" )
+	 			.style("stroke","white")
+	 			.attr("font-size",8)
+				.attr("text-anchor","middle")
+				.attr("alignment-baseline","middle");
 
+		keyDe.append("text")
+	 			.attr("x",850)
+	 			.attr("y",455)
+	 			.text("Number of DRGs")
+	 			.attr("class","statesinline" )
+	 			.style("stroke","white")
+	 			.attr("font-size",8)
+				.attr("text-anchor","middle")
+				.attr("alignment-baseline","middle");
+
+		keyDe.append("text")
+	 			.attr("x",850)
+	 			.attr("y",465)
+	 			.text("with Reduced")
+	 			.attr("class","statesinline" )
+	 			.style("stroke","white")
+	 			.attr("font-size",8)
+				.attr("text-anchor","middle")
+				.attr("alignment-baseline","middle");
+
+		keyDe.append("text")
+	 			.attr("x",850)
+	 			.attr("y",475)
+	 			.text("Costs")
+	 			.attr("class","statesinline" )
+	 			.style("stroke","white")
+	 			.attr("font-size",8)
+				.attr("text-anchor","middle")
+				.attr("alignment-baseline","middle");
 			
 			
 	</script>
