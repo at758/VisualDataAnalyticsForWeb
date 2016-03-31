@@ -499,7 +499,7 @@
 				.attr("height", heightDe).attr("width", widthDe);
 
 	//Scale for the size of the circle and the number of DRG reduced
-	var decreaseNumScale = d3.scale.linear().domain([0, 51]).range([0,50]);
+	var decreaseNumScale = d3.scale.sqrt().domain([0, 51]).range([0,50]);
 
 	//Scale for the amount of reduction described by the color
 	var decreaseSumScale = d3.scale.linear().domain([-4200, 0]).range(["#0b4ccc", "#d7e4fd"]);
@@ -749,7 +749,7 @@
 	 			.attr("cx",850)
 	 			.attr("cy",455)
 	 			.attr("r",35)
-	 			.attr("fill","rgb(100, 142, 225)");
+	 			.attr("stroke","rgb(100, 142, 225)");
 
 		keyDe.append("text")
 	 			.attr("x",850)
